@@ -102,14 +102,20 @@ class TPscene extends CGFscene
 
         // ---- END Background, camera and axis setup
 
+        this.translate(0, 5, 0);
+
+        //Drawing to have another object
+        this.obj.display();
 
         // ---- BEGIN Geometric transformation section
 
-        // Multiplication of the previous transformations
+        //Same transformations as before but now using CGF functions
+
         this.scale(5, 2, 1);
         this.translate(5, 0, 2);
         //this.rotate(30.0 * this.deg2rad, 0, 1, 0);
 
+        // Multiplication of the previous transformations
         //this.multMatrix(this.sca);     // GT = GT * sca
         //this.multMatrix(this.tra);     // GT = GT * tra
         //this.multMatrix(this.rot);     // GT = GT * rot
