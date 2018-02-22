@@ -102,10 +102,16 @@ class TPscene extends CGFscene
 
         // ---- END Background, camera and axis setup
 
+        //Preserving transformation matrix
+        this.pushMatrix();
+
         this.translate(0, 5, 0);
 
         //Drawing to have another object
         this.obj.display();
+
+        this.popMatrix();
+
 
         // ---- BEGIN Geometric transformation section
 
