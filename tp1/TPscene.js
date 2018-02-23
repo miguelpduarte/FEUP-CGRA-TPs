@@ -23,7 +23,8 @@ class TPscene extends CGFscene
 
         this.axis = new CGFaxis(this);
         this.obj = new MyObject(this);
-        this.unitCube = new MyUnitCube(this);
+        //this.unitCube = new MyUnitCube(this);
+        this.unitCubeQuad = new MyUnitCubeQuad(this);
 
 
         // NOTE: OpenGL transformation matrices are transposed
@@ -111,7 +112,8 @@ class TPscene extends CGFscene
         // ---- BEGIN Primitive drawing section
 
         //this.obj.display();
-        this.unitCube.display();
+        //this.unitCube.display();
+        this.unitCubeQuad.display();
 
         // ---- END Primitive drawing section
 
