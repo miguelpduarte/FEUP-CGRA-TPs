@@ -22,8 +22,8 @@ class TPscene extends CGFscene
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-        this.obj = new MyObject(this);
-        //this.unitCube = new MyUnitCube(this);
+        //this.obj = new MyObject(this);
+        this.unitCube = new MyUnitCube(this);
         this.unitCubeQuad = new MyUnitCubeQuad(this);
 
 
@@ -112,8 +112,12 @@ class TPscene extends CGFscene
         // ---- BEGIN Primitive drawing section
 
         //this.obj.display();
-        //this.unitCube.display();
+        this.unitCube.display();
+
+        this.pushMatrix();
+        this.translate(2, 0, 0);
         this.unitCubeQuad.display();
+        this.popMatrix();
 
         // ---- END Primitive drawing section
 
