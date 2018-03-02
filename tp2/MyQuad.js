@@ -20,6 +20,13 @@ class MyQuad extends CGFobject
 		0.5, 0.5, 0
 		];
 
+		this.normals = [
+			0, 0, 1,
+			0, 0, 1,
+			0, 0, 1,
+			0, 0, 1
+		]
+
 		this.indices = [
 		0, 1, 2, 
 		3, 2, 1

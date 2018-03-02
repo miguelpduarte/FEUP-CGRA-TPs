@@ -3,7 +3,7 @@ var degToRad = Math.PI / 180.0;
 var BOARD_WIDTH = 6.0;
 var BOARD_HEIGHT = 4.0;
 
-var BOARD_A_DIVISIONS = 1;
+var BOARD_A_DIVISIONS = 30;
 var BOARD_B_DIVISIONS = 100;
 
 class LightingScene extends CGFscene 
@@ -43,8 +43,11 @@ class LightingScene extends CGFscene
 		this.materialA = new CGFappearance(this);
 		this.materialA.setAmbient(0.3,0.3,0.3,1);
 		this.materialA.setDiffuse(0.6,0.6,0.6,1);
-		this.materialA.setSpecular(0.2,0.2,0.2,1);
-		this.materialA.setShininess(10);
+		//this.materialA.setSpecular(0.2,0.2,0.2,1);
+		//this.materialA.setSpecular(0.8,0.8,0.8,1);	
+		this.materialA.setSpecular(0, 0, 0.8, 1);
+		//this.materialA.setShininess(10);
+		this.materialA.setShininess(120);
 
 		this.materialB = new CGFappearance(this);
 		this.materialB.setAmbient(0.3,0.3,0.3,1);
@@ -61,7 +64,8 @@ class LightingScene extends CGFscene
 
 	initLights() 
 	{
-		this.setGlobalAmbientLight(0.5,0.5,0.5, 1.0);
+		//this.setGlobalAmbientLight(0.5,0.5,0.5, 1.0);
+		this.setGlobalAmbientLight(0.0, 0.0, 0.0, 1.0);
 		
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
@@ -77,11 +81,12 @@ class LightingScene extends CGFscene
 
 		this.lights[0].setAmbient(0, 0, 0, 1);
 		this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		//this.lights[0].enable();
+		this.lights[0].setSpecular(1.0, 1.0, 0.0, 1.0);
+		this.lights[0].enable();
 
 		this.lights[1].setAmbient(0, 0, 0, 1);
 		this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		//this.lights[1].enable();
+		this.lights[1].enable();
 	};
 
 	updateLights() 
