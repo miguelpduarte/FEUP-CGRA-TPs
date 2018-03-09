@@ -38,6 +38,8 @@ class LightingScene extends CGFscene
 		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
 		this.boardB = new Plane(this, BOARD_B_DIVISIONS);
 
+		this.prism = new MyPrism(this, 8, 20);
+
 		// Materials
 		this.materialDefault = new CGFappearance(this);
 
@@ -126,34 +128,7 @@ class LightingScene extends CGFscene
 			this.lights[i].update();
 	}
 
-
-	display()
-	{
-		// ---- BEGIN Background, camera and axis setup
-
-		// Clear image and depth buffer everytime we update the scene
-		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-
-		// Initialize Model-View matrix as identity (no transformation)
-		this.updateProjectionMatrix();
-		this.loadIdentity();
-
-		// Apply transformations corresponding to the camera position relative to the origin
-		this.applyViewMatrix();
-
-		// Update all lights used
-		this.updateLights();
-
-		// Draw axis
-		this.axis.display();
-
-		this.materialDefault.apply();
-
-		// ---- END Background, camera and axis setup
-
-		// ---- BEGIN Scene drawing section
-		/*
+	drawRoom() {
 		// Floor
 		this.pushMatrix();
 			this.translate(7.5, 0, 7.5);
@@ -226,8 +201,43 @@ class LightingScene extends CGFscene
 			this.materialB.apply();
 			this.boardB.display();
 		this.popMatrix();
-		*/
 
+	}
+
+	display()
+	{
+		// ---- BEGIN Background, camera and axis setup
+
+		// Clear image and depth buffer everytime we update the scene
+		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+		// Initialize Model-View matrix as identity (no transformation)
+		this.updateProjectionMatrix();
+		this.loadIdentity();
+
+		// Apply transformations corresponding to the camera position relative to the origin
+		this.applyViewMatrix();
+
+		// Update all lights used
+		this.updateLights();
+
+		// Draw axis
+		this.axis.display();
+
+		this.materialDefault.apply();
+
+		// ---- END Background, camera and axis setup
+
+		// ---- BEGIN Scene drawing section
+		this.pushMatrix();
+		this.scale(5, 5, 20);
+		//this.rotate(1, 0, 0, Math.PI/2);
+		this.prism.display();
+		this.popMatrix();
+
+		//this.drawRoom();
+		
 
 		// ---- END Scene drawing section
 	};
