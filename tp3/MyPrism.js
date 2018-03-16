@@ -26,8 +26,6 @@ class MyPrism extends CGFobject
 		for(let i = 0; i < this.slices; ++i) {
 			let temp_verts = [
 				Math.cos(step_angle*i), Math.sin(step_angle*i),
-				Math.cos(step_angle*(i+1)), Math.sin(step_angle*(i+1)),
-				Math.cos(step_angle*i), Math.sin(step_angle*i),
 				Math.cos(step_angle*(i+1)), Math.sin(step_angle*(i+1))
 			];
 
@@ -36,8 +34,8 @@ class MyPrism extends CGFobject
 				this.vertices.push(
 					temp_verts[0], temp_verts[1], j*stack_step,
 					temp_verts[2], temp_verts[3], j*stack_step,
-					temp_verts[4], temp_verts[5], (j+1)*stack_step,
-					temp_verts[6], temp_verts[7], (j+1)*stack_step
+					temp_verts[0], temp_verts[1], (j+1)*stack_step,
+					temp_verts[2], temp_verts[3], (j+1)*stack_step
 				);
 
 				this.indices.push(
