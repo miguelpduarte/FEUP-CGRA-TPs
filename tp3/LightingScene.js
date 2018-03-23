@@ -40,6 +40,7 @@ class LightingScene extends CGFscene
 
 		this.prism = new MyPrism(this, 8, 20);
 		this.cylinder = new MyCylinder(this, 8, 20);
+		this.lamp = new MyLamp(this, 200, 200);
 
 		// Materials
 		this.materialDefault = new CGFappearance(this);
@@ -94,7 +95,7 @@ class LightingScene extends CGFscene
 		this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
 		this.lights[2].setVisible(true); // show marker on light position (different from enabled)
 
-		this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
+		this.lights[3].setPosition(4, 7.5, 5.0, 1.0);
 		this.lights[3].setVisible(true); // show marker on light position (different from enabled)
 
 		this.lights[0].setAmbient(0, 0, 0, 1);
@@ -232,22 +233,28 @@ class LightingScene extends CGFscene
 
 		// ---- BEGIN Scene drawing section
 		this.pushMatrix();
-		this.translate(5, 0, 13);
-		this.rotate(-Math.PI/2, 1, 0, 0);
-		this.scale(1, 1, 8);
-		this.prism.display();
+			this.translate(5, 0, 13);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.scale(1, 1, 8);
+			this.prism.display();
 		this.popMatrix();
-		
+
 		this.pushMatrix();
-		this.translate(12, 0, 13);
-		this.rotate(-Math.PI/2, 1, 0, 0);
-		this.scale(1, 1, 8);
-		this.cylinder.display();
+			this.translate(12, 0, 13);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.scale(1, 1, 8);
+			this.cylinder.display();
+		this.popMatrix();
+
+		this.pushMatrix();
+			this.translate(4, 8, 5);
+			this.rotate(Math.PI/2, 1, 0, 0);
+			this.lamp.display();
 		this.popMatrix();
 
 
 		this.drawRoom();
-		
+
 
 		// ---- END Scene drawing section
 	};
