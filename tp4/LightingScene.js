@@ -36,8 +36,11 @@ class LightingScene extends CGFscene
 		this.floor = new MyQuad(this, 0, 10, 0, 12);
 		this.chair = new MyChair(this);
 
-		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
-		this.boardB = new Plane(this, BOARD_B_DIVISIONS);
+		//this.boardA = new Plane(this, BOARD_A_DIVISIONS, 0, 1, 0, 1);
+	//	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
+
+		this.boardA = new Plane(this, BOARD_A_DIVISIONS, -0.27, 1.23, 0, 1);
+		this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
 
 		this.prism = new MyPrism(this, 8, 20);
 		this.cylinder = new MyCylinder(this, 8, 20);
@@ -73,6 +76,19 @@ class LightingScene extends CGFscene
 
 		this.floorAppearance = new CGFappearance(this);
     	this.floorAppearance.loadTexture("./resources/images/floor.png");
+
+		this.slidesAppearance = new CGFappearance(this);
+    	this.slidesAppearance.loadTexture("./resources/images/slides.png");
+		this.slidesAppearance.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
+		this.slidesAppearance.setDiffuse(0.85 , 0.85 , 0.85 , 1);
+		this.slidesAppearance.setSpecular(0.15 , 0.15 , 0.15 , 1);
+		this.slidesAppearance.setShininess(15);
+
+		this.boardAppearance = new CGFappearance(this);
+    	this.boardAppearance.loadTexture("./resources/images/board.png");
+		this.boardAppearance.setDiffuse(0.30 , 0.30 , 0.30 , 1);
+		this.boardAppearance.setSpecular(0.55 , 0.55 , 0.55 , 1);
+		this.boardAppearance.setShininess(100);
 
 		this.enableTextures(true);
 	};
@@ -193,7 +209,7 @@ class LightingScene extends CGFscene
 			this.translate(4, 4.5, 0.2);
 			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
 
-			this.materialA.apply();
+			this.slidesAppearance.apply();
 			this.boardA.display();
 		this.popMatrix();
 
@@ -202,7 +218,7 @@ class LightingScene extends CGFscene
 			this.translate(10.5, 4.5, 0.2);
 			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
 
-			this.materialB.apply();
+			this.boardAppearance.apply();
 			this.boardB.display();
 		this.popMatrix();
 

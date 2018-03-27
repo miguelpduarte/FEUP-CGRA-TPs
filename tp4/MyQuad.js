@@ -8,10 +8,10 @@ class MyQuad extends CGFobject
 	{
 		super(scene);
 
-		this.minS = minS;
-		this.maxS = maxS;
-		this.minT = minT;
-		this.maxT = maxT;
+		this.minS = typeof minS !== 'undefined' ? minS : 0;
+		this.maxS = typeof maxS !== 'undefined' ? maxS : 1;
+		this.minT = typeof minT !== 'undefined' ? minT : 0;
+		this.maxT = typeof maxT !== 'undefined' ? maxT : 1;
 
 		this.initBuffers();
 	};
