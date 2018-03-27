@@ -32,7 +32,8 @@ class LightingScene extends CGFscene
 		// Scene elements
 		this.table = new MyTable(this);
 		this.wall = new Plane(this);
-		this.floor = new MyQuad(this);
+		this.leftWall = new MyQuad(this, -0.25, 1.25, -0.25, 1.25);
+		this.floor = new MyQuad(this, 0, 10, 0, 12);
 		this.chair = new MyChair(this);
 
 		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
@@ -66,13 +67,14 @@ class LightingScene extends CGFscene
 		this.materialWall.setSpecular(0.02 , 0.0 , 0.07 , 1);
 		this.materialWall.setShininess(50);
 
-		this.materialFloor = new CGFappearance(this);
-		this.materialFloor.setAmbient(0.5 , 0.5 , 0.2 , 1);
-		this.materialFloor.setDiffuse(0.5 , 0.5 , 0.2 , 1);
-		this.materialFloor.setSpecular(0.25 , 0.25 , 0.1 , 1);
-		this.materialFloor.setShininess(5);
-		0.5/0.5/0.2
+		this.windowAppearance = new CGFappearance(this);
+    	this.windowAppearance.loadTexture("./resources/images/window.png");
+		this.windowAppearance.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
 
+		this.floorAppearance = new CGFappearance(this);
+    	this.floorAppearance.loadTexture("./resources/images/floor.png");
+
+		this.enableTextures(true);
 	};
 
 	initCameras()
@@ -137,7 +139,7 @@ class LightingScene extends CGFscene
 			this.rotate(-90 * degToRad, 1, 0, 0);
 			this.scale(15, 15, 0.2);
 
-			this.materialFloor.apply();
+			this.floorAppearance.apply();
 			this.floor.display();
 		this.popMatrix();
 
@@ -147,8 +149,8 @@ class LightingScene extends CGFscene
 			this.rotate(90 * degToRad, 0, 1, 0);
 			this.scale(15, 8, 0.2);
 
-			this.materialWall.apply();
-			this.wall.display();
+			this.windowAppearance.apply();
+			this.leftWall.display();
 		this.popMatrix();
 
 		// Plane Wall
@@ -204,6 +206,29 @@ class LightingScene extends CGFscene
 			this.boardB.display();
 		this.popMatrix();
 
+		// Prism
+		this.pushMatrix();
+			this.translate(5, 0, 13);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.scale(1, 1, 8);
+			this.prism.display();
+		this.popMatrix();
+
+		// Cylinder
+		this.pushMatrix();
+			this.translate(12, 0, 13);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.scale(1, 1, 8);
+			this.cylinder.display();
+		this.popMatrix();
+
+		// Lamp
+		this.pushMatrix();
+			this.translate(4, 8, 5);
+			this.rotate(Math.PI/2, 1, 0, 0);
+			this.lamp.display();
+		this.popMatrix();
+
 	}
 
 	display()
@@ -232,26 +257,6 @@ class LightingScene extends CGFscene
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
-		this.pushMatrix();
-			this.translate(5, 0, 13);
-			this.rotate(-Math.PI/2, 1, 0, 0);
-			this.scale(1, 1, 8);
-			this.prism.display();
-		this.popMatrix();
-
-		this.pushMatrix();
-			this.translate(12, 0, 13);
-			this.rotate(-Math.PI/2, 1, 0, 0);
-			this.scale(1, 1, 8);
-			this.cylinder.display();
-		this.popMatrix();
-
-		this.pushMatrix();
-			this.translate(4, 8, 5);
-			this.rotate(Math.PI/2, 1, 0, 0);
-			this.lamp.display();
-		this.popMatrix();
-
 
 		this.drawRoom();
 

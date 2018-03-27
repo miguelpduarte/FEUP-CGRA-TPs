@@ -12,12 +12,12 @@ class MyTable extends CGFobject
 		this.cube = new MyUnitCubeQuad(this.scene);
 		this.cube.initBuffers();
 
-		// Wood Material
-		this.materialWood = new CGFappearance(this.scene);
-		this.materialWood.setAmbient(0.5 , 0.3 , 0.0 , 1);
-		this.materialWood.setDiffuse(0.3 , 0.17 , 0.0 , 1);
-		this.materialWood.setSpecular(0.15 , 0.1 , 0.1 , 1);
-		this.materialWood.setShininess(50);
+		// Table wood material
+		this.tableAppearance = new CGFappearance(this.scene);
+    	this.tableAppearance.loadTexture("./resources/images/table.png");
+    	this.tableAppearance.setDiffuse(0.8,0.8,0.8,1);
+    	this.tableAppearance.setSpecular(0.2,0.2,0.2,1);
+    	this.tableAppearance.setShininess(15);
 
 		// Metal Material
 		this.materialMetal = new CGFappearance(this.scene);
@@ -68,7 +68,7 @@ class MyTable extends CGFobject
 			this.scene.scale(5, 0.3, 3);
 			this.scene.translate(0, 0.5, 0);
 
-			this.materialWood.apply();
+			this.tableAppearance.apply();
 			this.cube.display();
 		this.scene.popMatrix();
 	};
