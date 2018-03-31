@@ -65,9 +65,9 @@ class LightingScene extends CGFscene
 		this.materialB.setShininess(120);
 
 		this.materialWall = new CGFappearance(this);
-		this.materialWall.setAmbient(0.2 , 0.0 , 0.7 , 1);
-		this.materialWall.setDiffuse(0.08 , 0.0 , 0.30 , 1);
-		this.materialWall.setSpecular(0.02 , 0.0 , 0.07 , 1);
+		this.materialWall.setAmbient(0.15 , 0.15 , 0.6 , 1);
+		this.materialWall.setDiffuse(0.08 , 0.08 , 0.1 , 1);
+		this.materialWall.setSpecular(0.05 , 0.05 , 0.05 , 1);
 		this.materialWall.setShininess(50);
 
 		this.windowAppearance = new CGFappearance(this);
@@ -89,6 +89,14 @@ class LightingScene extends CGFscene
 		this.boardAppearance.setDiffuse(0.30 , 0.30 , 0.30 , 1);
 		this.boardAppearance.setSpecular(0.55 , 0.55 , 0.55 , 1);
 		this.boardAppearance.setShininess(100);
+
+		this.columnAppearance = new CGFappearance(this);
+    	this.columnAppearance.loadTexture("./resources/images/column.png");
+
+		this.lampAppearance = new CGFappearance(this);
+    	this.lampAppearance.loadTexture("./resources/images/lamp.jpg");
+		this.boardAppearance.setDiffuse(0.1 , 0.1 , 0.1 , 1);
+		this.boardAppearance.setSpecular(0.7 , 0.7 , 0.7 , 1);
 
 		this.enableTextures(true);
 	};
@@ -227,6 +235,8 @@ class LightingScene extends CGFscene
 			this.translate(5, 0, 13);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.scale(1, 1, 8);
+
+			this.columnAppearance.apply();
 			this.prism.display();
 		this.popMatrix();
 
@@ -235,6 +245,8 @@ class LightingScene extends CGFscene
 			this.translate(12, 0, 13);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.scale(1, 1, 8);
+
+			this.columnAppearance.apply();
 			this.cylinder.display();
 		this.popMatrix();
 
@@ -242,6 +254,8 @@ class LightingScene extends CGFscene
 		this.pushMatrix();
 			this.translate(4, 8, 5);
 			this.rotate(Math.PI/2, 1, 0, 0);
+
+			this.lampAppearance.apply();
 			this.lamp.display();
 		this.popMatrix();
 

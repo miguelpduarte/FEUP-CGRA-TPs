@@ -19,6 +19,7 @@ class MyLamp extends CGFobject
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.texCoords = [];
 
 		let omega_angle = 2*Math.PI/this.slices;
 		let alpha_angle = Math.PI/(2*this.stacks);
@@ -34,6 +35,10 @@ class MyLamp extends CGFobject
 
 				this.normals.push(
 					Math.cos(alpha_angle*j)*Math.cos(omega_angle*i), Math.cos(alpha_angle*j)*Math.sin(omega_angle*i), Math.sin(alpha_angle*j)
+				);
+
+				this.texCoords.push(
+					i*1/this.slices, j*1/this.stacks
 				);
 
 			}

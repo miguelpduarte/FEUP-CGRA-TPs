@@ -4,7 +4,7 @@
  */
 class MyCylinder extends CGFobject
 {
-	constructor(scene, slices, stacks) 
+	constructor(scene, slices, stacks)
 	{
 		super(scene);
 
@@ -14,11 +14,12 @@ class MyCylinder extends CGFobject
 		this.initBuffers();
 	};
 
-	initBuffers() 
+	initBuffers()
 	{
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.texCoords = [];
 
 		let step_angle = 2*Math.PI/this.slices;
 		let stack_step = 1/this.stacks;
@@ -31,12 +32,16 @@ class MyCylinder extends CGFobject
 					Math.cos(step_angle*i), Math.sin(step_angle*i), j*stack_step
 				);
 
+				this.texCoords.push(
+					i*1/this.slices, j*1/this.stacks
+				);
+
 				this.normals.push(
 					Math.cos(step_angle*i), Math.sin(step_angle*i), 0
 				);
 
 			}
-			
+
 		}
 
 		for (let i = 0; i < this.slices; ++i) {

@@ -4,7 +4,7 @@
  */
 class MyPrism extends CGFobject
 {
-	constructor(scene, slices, stacks) 
+	constructor(scene, slices, stacks)
 	{
 		super(scene);
 
@@ -14,11 +14,12 @@ class MyPrism extends CGFobject
 		this.initBuffers();
 	};
 
-	initBuffers() 
+	initBuffers()
 	{
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.texCoords = [];
 
 		let step_angle = 2*Math.PI/this.slices;
 		let stack_step = 1/this.stacks;
@@ -38,6 +39,13 @@ class MyPrism extends CGFobject
 					temp_verts[2], temp_verts[3], (j+1)*stack_step
 				);
 
+				this.texCoords.push(
+					i*1/this.slices, (j+1)*1/this.stacks,
+					(i+1)*1/this.slices, (j+1)*1/this.stacks,
+					i*1/this.slices, j*1/this.stacks,
+					(i+1)*1/this.slices, j*1/this.stacks
+				);
+
 				this.indices.push(
 					4*i*this.stacks + 4*j + 0, 4*i*this.stacks + 4*j + 1, 4*i*this.stacks + 4*j + 2,
 					4*i*this.stacks + 4*j + 3, 4*i*this.stacks + 4*j + 2, 4*i*this.stacks + 4*j + 1
@@ -52,8 +60,9 @@ class MyPrism extends CGFobject
 					temp_normal[0], temp_normal[1], temp_normal[2],
 					temp_normal[0], temp_normal[1], temp_normal[2]
 				);
+
 			}
-			
+
 		}
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
