@@ -40,10 +40,10 @@ class MyPrism extends CGFobject
 				);
 
 				this.texCoords.push(
-					i*1/this.slices, (j+1)*1/this.stacks,
-					(i+1)*1/this.slices, (j+1)*1/this.stacks,
 					i*1/this.slices, j*1/this.stacks,
-					(i+1)*1/this.slices, j*1/this.stacks
+					(i+1)*1/this.slices, j*1/this.stacks,
+					i*1/this.slices, (j+1)*1/this.stacks,
+					(i+1)*1/this.slices, (j+1)*1/this.stacks
 				);
 
 				this.indices.push(
