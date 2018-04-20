@@ -8,13 +8,11 @@ var BOARD_B_DIVISIONS = 100;
 
 class LightingScene extends CGFscene
 {
-	constructor()
-	{
+	constructor() {
 		super();
 	};
 
-	init(application)
-	{
+	init(application) {
 		super.init(application);
 
 		this.initCameras();
@@ -97,15 +95,15 @@ class LightingScene extends CGFscene
 		this.boardAppearance.setSpecular(0.7 , 0.7 , 0.7 , 1);
 
 		this.enableTextures(true);
+
+		this.setUpdatePeriod(100);
 	};
 
-	initCameras()
-	{
+	initCameras() {
 		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 	};
 
-	initLights()
-	{
+	initLights() {
 		//this.setGlobalAmbientLight(0.5,0.5,0.5, 1.0);
 		this.setGlobalAmbientLight(0.2, 0.2, 0.2, 1.0);
 
@@ -148,10 +146,13 @@ class LightingScene extends CGFscene
 		this.lights[3].enable();
 	};
 
-	updateLights()
-	{
+	updateLights() {
 		for (var i = 0; i < this.lights.length; i++)
 			this.lights[i].update();
+	}
+
+	update(currTime) {
+		this.clock.update(currTime);
 	}
 
 	drawRoom() {
@@ -264,8 +265,7 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 	}
 
-	display()
-	{
+	display() {
 		// ---- BEGIN Background, camera and axis setup
 
 		// Clear image and depth buffer everytime we update the scene
