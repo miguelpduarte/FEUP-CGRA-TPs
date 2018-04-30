@@ -14,6 +14,9 @@ class MyWheel extends CGFobject
 
 		this.rimSize = 0.7;
 
+		this.angle = 0;
+        this.ang_to_rad = Math.PI/180;
+
 		// Tire material
         this.tireAppearance = new CGFappearance(this.scene);
         this.tireAppearance.loadTexture("./resources/images/tire.jpg");
@@ -26,14 +29,15 @@ class MyWheel extends CGFobject
     };
 
     setAngle(angle) {
-        this.angle = -angle * this.ang_to_rad;
+        this.angle = 12*angle * this.ang_to_rad;
     }
 
     display() {
 
 		// Rim #1
         this.scene.pushMatrix();
-			this.scene.translate(0, 1, 1);
+            this.scene.rotate(this.angle, 0, 0, 1);
+			this.scene.translate(0, 0, 1);
 			this.scene.scale(this.rimSize, this.rimSize, 0.1);
 
 			this.metalAppearance.apply();
@@ -42,7 +46,8 @@ class MyWheel extends CGFobject
 
 		// Rim #2
         this.scene.pushMatrix();
-			this.scene.translate(0, 1, 0);
+            this.scene.rotate(this.angle, 0, 0, 1);
+			this.scene.translate(0, 0, 0);
 			this.scene.scale(this.rimSize, this.rimSize, 0.1);
 			this.scene.rotate(Math.PI, 0, 1, 0);
 
@@ -52,7 +57,8 @@ class MyWheel extends CGFobject
 
 		// Tire Cover #1
         this.scene.pushMatrix();
-			this.scene.translate(0, 1, 1);
+            this.scene.rotate(this.angle, 0, 0, 1);
+			this.scene.translate(0, 0, 1);
 
 			this.tireSideAppearance.apply();
             this.cover.display();
@@ -60,7 +66,8 @@ class MyWheel extends CGFobject
 
 		// Tire Cover #2
         this.scene.pushMatrix();
-			this.scene.translate(0, 1, 0);
+            this.scene.rotate(this.angle, 0, 0, 1);
+			this.scene.translate(0, 0, 0);
 			this.scene.rotate(Math.PI, 0, 0, 1);
 			this.scene.scale(1, -1, 1);
 
@@ -70,7 +77,8 @@ class MyWheel extends CGFobject
 
 		// Tire Body
         this.scene.pushMatrix();
-			this.scene.translate(0, 1, 0);
+            this.scene.rotate(this.angle, 0, 0, 1);
+			this.scene.translate(0, 0, 0);
 
 		    this.tireAppearance.apply();
             this.body.display();

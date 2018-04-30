@@ -30,6 +30,7 @@ class LightingScene extends CGFscene
 		// Scene elements
 		this.floor = new MyTerrain(this, 80);
 		this.wheel = new MyWheel(this, 20);
+		this.vehicle = new MyVehicle(this);
 
 		// Materials
 		this.materialDefault = new CGFappearance(this);
@@ -45,6 +46,10 @@ class LightingScene extends CGFscene
 	initCameras() {
 		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 	};
+
+	update(currTime) {
+		this.vehicle.update(currTime);
+	}
 
 	initLights() {
 		this.setGlobalAmbientLight(0.3, 0.3, 0.3, 1.0);
@@ -117,7 +122,7 @@ class LightingScene extends CGFscene
 
 		// Wheel
 		this.pushMatrix();
-			this.wheel.display();
+			this.vehicle.display();
 		this.popMatrix();
 
 
