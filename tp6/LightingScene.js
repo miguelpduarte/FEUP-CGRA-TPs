@@ -55,6 +55,17 @@ class LightingScene extends CGFscene {
 			text += " W ";
 			keysPressed = true;
 		}
+		if (this.gui.isKeyPressed("KeyA")) {
+			text += " A ";
+			keysPressed = true;
+			this.vehicle.descreaseFrontWheelAngle();
+		}
+		if (this.gui.isKeyPressed("KeyD")) {
+			text += " D ";
+			keysPressed = true;
+			this.vehicle.increaseFrontWheelAngle();
+		}
+
 		if (this.gui.isKeyPressed("KeyS")) {
 			text += " S ";
 			keysPressed = true;

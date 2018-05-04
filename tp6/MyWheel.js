@@ -16,7 +16,10 @@ class MyWheel extends CGFobject
 
 		this.angle = 0;
 		this.turningAngle = 0;
-        this.ang_to_rad = Math.PI/180;
+        this.ANG_TO_RAD = Math.PI/180;
+
+        this.MIN_TURNING_ANGLE = -45 * this.ANG_TO_RAD;
+        this.MAX_TURNING_ANGLE = 45 * this.ANG_TO_RAD;
 
 		// Tire material
         this.tireAppearance = new CGFappearance(this.scene);
@@ -30,11 +33,21 @@ class MyWheel extends CGFobject
     };
 
     setAngle(angle) {
-        this.angle = 12*angle * this.ang_to_rad;
+        this.angle = 12*angle * this.ANG_TO_RAD;
     }
 
 	setTurningAngle(angle) {
-        this.turningAngle = angle * this.ang_to_rad;
+        this.turningAngle = angle * this.ANG_TO_RAD;
+    }
+
+    changeTurningAngleBy(angleDelta) {
+        this.turningAngle += angleDelta * this.ANG_TO_RAD;
+        console.log(this.turningAngle);
+        if(this.turningAngle > this.MAX_TURNING_ANGLE) {
+            this.turningAngle = this.MAX_TURNING_ANGLE;
+        } else if(this.turningAngle < this.MIN_TURNING_ANGLE) {
+            this.turningAngle = this.MIN_TURNING_ANGLE;
+        }
     }
 
     display() {

@@ -10,12 +10,27 @@ class MyVehicle extends CGFobject
 
         this.wheel = new MyWheel(scene, 20);
         this.turningWheel = new MyWheel(scene, 20);
-        this.turningWheel.setTurningAngle(40);
+        //this.turningWheel.setTurningAngle(40);
+        this.turningSpeed = 5;
     };
 
     update(currTime) {
         this.wheel.setAngle(currTime/1000 * 360/60);
 	    this.turningWheel.setAngle(currTime/1000 * 360/60);
+    }
+
+    descreaseFrontWheelAngle() {
+        this.turningWheel.changeTurningAngleBy(-this.turningSpeed);
+    }
+
+    increaseFrontWheelAngle() {
+        this.turningWheel.changeTurningAngleBy(this.turningSpeed);
+    }
+
+    setFrontWheelsAngle(angle) {
+        if (angle <= 45 && angle >= -45) {
+            this.turningWheel.setTurningAngle(angle);
+        }
     }
 
     display() {
