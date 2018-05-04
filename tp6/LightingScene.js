@@ -41,13 +41,6 @@ class LightingScene extends CGFscene {
 
 		this.enableTextures(true);
 
-		for(let i = 0; i < this.nLights; ++i) {
-			this['Luz ' + (i+1)] = true;
-		}
-
-		//Interface vars
-		this.option1 = true; this.option2 = false; this.speed = 3;
-
 		this.setUpdatePeriod(1000 / FRAME_RATE);
 	};
 
@@ -69,10 +62,6 @@ class LightingScene extends CGFscene {
 		if (keysPressed)
 			console.log(text);
 	}
-
-	doSomething() {
-		console.log("Doing something...");
-	};
 
 	update(currTime) {
 		this.checkKeys();
