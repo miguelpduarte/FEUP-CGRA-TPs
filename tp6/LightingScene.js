@@ -6,8 +6,9 @@ var BOARD_HEIGHT = 4.0;
 var BOARD_A_DIVISIONS = 30;
 var BOARD_B_DIVISIONS = 100;
 
-class LightingScene extends CGFscene
-{
+const FRAME_RATE = 60;
+
+class LightingScene extends CGFscene {
 	constructor() {
 		super();
 	};
@@ -36,18 +37,41 @@ class LightingScene extends CGFscene
 		this.materialDefault = new CGFappearance(this);
 
 		this.floorAppearance = new CGFappearance(this);
-    	this.floorAppearance.loadTexture("./resources/images/floor.png");
+		this.floorAppearance.loadTexture("./resources/images/floor.png");
 
 		this.enableTextures(true);
 
-		this.setUpdatePeriod(100);
+		//Interface vars
+		this.option1 = true; this.option2 = false; this.speed = 3;
+
+		this.setUpdatePeriod(1000 / FRAME_RATE);
 	};
 
 	initCameras() {
 		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 	};
 
+	checkKeys() {
+		var text = "Keys pressed: ";
+		var keysPressed = false;
+		if (this.gui.isKeyPressed("KeyW")) {
+			text += " W ";
+			keysPressed = true;
+		}
+		if (this.gui.isKeyPressed("KeyS")) {
+			text += " S ";
+			keysPressed = true;
+		}
+		if (keysPressed)
+			console.log(text);
+	}
+
+	doSomething() {
+		console.log("Doing something...");
+	};
+
 	update(currTime) {
+		this.checkKeys();
 		this.vehicle.update(currTime);
 	}
 
@@ -114,15 +138,15 @@ class LightingScene extends CGFscene
 
 		// Floor
 		this.pushMatrix();
-			this.scale(50, 1, 50);
-			this.rotate(-90*degToRad, 1, 0, 0);
+		this.scale(50, 1, 50);
+		this.rotate(-90 * degToRad, 1, 0, 0);
 
-			this.floor.display();
+		this.floor.display();
 		this.popMatrix();
 
 		// Wheel
 		this.pushMatrix();
-			this.vehicle.display();
+		this.vehicle.display();
 		this.popMatrix();
 
 
