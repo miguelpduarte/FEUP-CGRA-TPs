@@ -41,6 +41,10 @@ class LightingScene extends CGFscene {
 
 		this.enableTextures(true);
 
+		for(let i = 0; i < this.nLights; ++i) {
+			this['Luz ' + (i+1)] = true;
+		}
+
 		//Interface vars
 		this.option1 = true; this.option2 = false; this.speed = 3;
 
@@ -76,6 +80,8 @@ class LightingScene extends CGFscene {
 	}
 
 	initLights() {
+		this.nLights = 4;
+
 		this.setGlobalAmbientLight(0.3, 0.3, 0.3, 1.0);
 
 		this.lights[0].setPosition(2, 4, 2, 1);
@@ -108,6 +114,14 @@ class LightingScene extends CGFscene {
 	updateLights() {
 		for (var i = 0; i < this.lights.length; i++)
 			this.lights[i].update();
+	}
+
+	setLightState(index, setOn) {
+		if(setOn) {
+			this.lights[index].enable();
+		} else {
+			this.lights[index].disable();
+		}
 	}
 
 	display() {

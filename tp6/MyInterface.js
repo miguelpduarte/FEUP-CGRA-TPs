@@ -47,9 +47,21 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'speed', -5, 5);
 
         this.initKeys();
+        this.createLightCheckboxes();
 
         return true;
     };
+
+    createLightCheckboxes() {
+        let nLights = this.scene.nLights;
+        var group = this.gui.addFolder("Luzes");
+        group.open();
+        for(let i = 0; i < nLights; ++i) {
+            group.add(this.scene, 'Luz ' + (i+1)).onChange((val) => {
+                this.scene.setLightState(i, val);
+            });
+        }
+    }
 
     initKeys() {
         this.scene.gui = this;
