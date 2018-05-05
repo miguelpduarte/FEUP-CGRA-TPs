@@ -19,6 +19,11 @@ serialInclude([
 	'MyTerrain.js',
 	'MyWheel.js',
 	'MyVehicle.js',
+	'MyVehicleRightSide.js',
+	'MyVehicleLeftSide.js',
+	'MyExhaustPipe.js',
+	'MyTrapezoid.js',
+	'MyTriangle.js',
 	'MyInterface.js',
 
 	main=function() {
