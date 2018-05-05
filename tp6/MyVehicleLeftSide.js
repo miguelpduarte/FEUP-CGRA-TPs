@@ -36,9 +36,16 @@ class MyVehicleLeftSide extends CGFobject
         this.scene.popMatrix();
 
 		this.scene.pushMatrix();
-			this.scene.translate(0, 0.875, 2);
+			this.scene.translate(0, 0.875, 1);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);
-			this.scene.scale(4, 0.25, 1);
+			this.scene.scale(2, 0.25, 1);
+			this.quad.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+			this.scene.translate(0, 0.875, 3);
+			this.scene.rotate(-Math.PI/2, 0, 1, 0);
+			this.scene.scale(2, 0.25, 1);
 			this.quad.display();
 		this.scene.popMatrix();
 

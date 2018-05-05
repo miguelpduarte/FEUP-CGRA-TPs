@@ -28,6 +28,22 @@ class MyVehicle extends CGFobject
 		this.exhaustPipe = new MyExhaustPipe(scene);
 		this.top = new MyVehicleTop(scene, this.vehicleBreath, this.vehicleHeight);
 		this.bottom = new MyVehicleBottom(scene, this.vehicleBreath, this.vehicleDistanceToGround);
+		this.glass = new Plane(scene, 20);
+
+		this.blueColorMaterial = new CGFappearance(scene);
+		this.blueColorMaterial.setAmbient(0.05 , 0.05 , 0.20 , 1);
+		this.blueColorMaterial.setDiffuse(0.025 , 0.025 , 0.10 , 1);
+		this.blueColorMaterial.setSpecular(0.05 , 0.05 , 0.20 , 1);
+		this.blueColorMaterial.setShininess(50);
+
+		this.glassMaterial = new CGFappearance(scene);
+		this.glassMaterial.setAmbient(179/255, 217/255, 255/255, 1);
+		this.glassMaterial.setDiffuse(179/400, 217/400, 255/400, 1);
+		this.glassMaterial.setSpecular(179/255, 217/255, 255/255, 1);
+		this.glassMaterial.setShininess(50);
+
+        this.metalAppearance = new CGFappearance(this.scene);
+        this.metalAppearance.loadTexture("./resources/images/metal.jpg");
 
         this.turningSpeed = 5;
     };
@@ -85,12 +101,12 @@ class MyVehicle extends CGFobject
 			this.turningWheel.display();
         this.scene.popMatrix();
 
-		this.scene.materialDefault.apply();
+		this.blueColorMaterial.apply();
 
 		// Front
         this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 2/3, 4.375);
-			this.scene.scale(this.vehicleBreath, 2/3, 0.75);
+            this.scene.translate(this.vehicleBreath/2, 2/3, 4.45);
+			this.scene.scale(this.vehicleBreath, 2/3, 0.9);
 			this.cube.display();
         this.scene.popMatrix();
 
@@ -130,6 +146,7 @@ class MyVehicle extends CGFobject
         this.scene.popMatrix();
 
 		// Vehicle Exhaust Pipes
+		this.metalAppearance.apply();
         this.scene.pushMatrix();
 			this.scene.translate(this.vehicleBreath-0.10, 0.4, -0.15);
 			this.exhaustPipe.display();
@@ -137,6 +154,23 @@ class MyVehicle extends CGFobject
         this.scene.pushMatrix();
 			this.scene.translate(this.vehicleBreath-0.25, 0.4, -0.15);
 			this.exhaustPipe.display();
+        this.scene.popMatrix();
+
+		// Front Glass
+		this.glassMaterial.apply();
+        this.scene.pushMatrix();
+            this.scene.translate(this.vehicleBreath/2, 1.5 + 0.01, 3.5 + 0.01);
+			this.scene.rotate(-Math.PI/4, 1, 0, 0);
+			this.scene.scale(this.vehicleBreath-0.2, Math.sqrt(2)-0.2, 1);
+			this.glass.display();
+        this.scene.popMatrix();
+
+		// Back Glass
+        this.scene.pushMatrix();
+            this.scene.translate(this.vehicleBreath/2, this.vehicleHeight-0.5 + 0.01, 0.625 - 0.01);
+			this.scene.rotate(-Math.PI/2-0.927295, 1, 0, 0);
+			this.scene.scale(this.vehicleBreath-0.2, Math.sqrt(1 + 0.75*0.75)-0.2, 1);
+			this.glass.display();
         this.scene.popMatrix();
 
     };
