@@ -21,6 +21,8 @@ serialInclude([
 	'MyVehicle.js',
 	'MyVehicleRightSide.js',
 	'MyVehicleLeftSide.js',
+	'MyVehicleTop.js',
+	'MyVehicleBottom.js',
 	'MyExhaustPipe.js',
 	'MyTrapezoid.js',
 	'MyTriangle.js',

@@ -26,6 +26,8 @@ class MyVehicle extends CGFobject
 		this.rightSide = new MyVehicleRightSide(scene, this.vehicleDistanceToGround);
 		this.leftSide = new MyVehicleLeftSide(scene, this.vehicleDistanceToGround);
 		this.exhaustPipe = new MyExhaustPipe(scene);
+		this.top = new MyVehicleTop(scene, this.vehicleBreath, this.vehicleHeight);
+		this.bottom = new MyVehicleBottom(scene, this.vehicleBreath, this.vehicleDistanceToGround);
 
         this.turningSpeed = 5;
     };
@@ -92,29 +94,10 @@ class MyVehicle extends CGFobject
 			this.cube.display();
         this.scene.popMatrix();
 
-		// Front Glass
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 1.5, 3.5);
-			this.scene.rotate(-Math.PI/4, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, Math.sqrt(2), 1);
-			this.quad.display();
-        this.scene.popMatrix();
-
 		// Top
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, this.vehicleHeight, 2);
-			this.scene.rotate(-Math.PI/2, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, 2, 1);
-			this.quad.display();
-        this.scene.popMatrix();
-
-		// Back Glass
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, this.vehicleHeight-0.5, 0.625);
-			this.scene.rotate(-Math.PI/2-0.927295, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, Math.sqrt(1 + 0.75*0.75), 1);
-			this.quad.display();
-        this.scene.popMatrix();
+		this.scene.pushMatrix();
+			this.top.display();
+		this.scene.popMatrix();
 
 		// Back
         this.scene.pushMatrix();
@@ -130,55 +113,10 @@ class MyVehicle extends CGFobject
 			this.quad.display();
         this.scene.popMatrix();
 
-		// Car bottom
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, this.vehicleDistanceToGround, 0.25);
-			this.scene.rotate(Math.PI/2, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, 0.5, 1);
-			this.quad.display();
-        this.scene.popMatrix();
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, this.vehicleDistanceToGround, 2.25);
-			this.scene.rotate(Math.PI/2, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, 1.5, 1);
-			this.quad.display();
-        this.scene.popMatrix();
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 0.75, 1);
-			this.scene.rotate(Math.PI/2, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, 0.3, 1);
-			this.quad.display();
-        this.scene.popMatrix();
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 0.75, 3.5);
-			this.scene.rotate(Math.PI/2, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, 0.3, 1);
-			this.quad.display();
-        this.scene.popMatrix();
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 13/24, 0.675);
-			this.scene.rotate(0.698659, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, Math.sqrt(5/12*5/12 + 0.35*0.35), 1);
-			this.quad.display();
-        this.scene.popMatrix();
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 13/24, 3.175);
-			this.scene.rotate(0.698659, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, Math.sqrt(5/12*5/12 + 0.35*0.35), 1);
-			this.quad.display();
-        this.scene.popMatrix();
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 13/24, 1.325);
-			this.scene.rotate(-0.698659 + Math.PI, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, Math.sqrt(5/12*5/12 + 0.35*0.35), 1);
-			this.quad.display();
-        this.scene.popMatrix();
-        this.scene.pushMatrix();
-            this.scene.translate(this.vehicleBreath/2, 13/24, 3.825);
-			this.scene.rotate(-0.698659 + Math.PI, 1, 0, 0);
-			this.scene.scale(this.vehicleBreath, Math.sqrt(5/12*5/12 + 0.35*0.35), 1);
-			this.quad.display();
-        this.scene.popMatrix();
+		// Vehicle bottom
+		this.scene.pushMatrix();
+			this.bottom.display();
+		this.scene.popMatrix();
 
 		// Vehicle Right Side
         this.scene.pushMatrix();
