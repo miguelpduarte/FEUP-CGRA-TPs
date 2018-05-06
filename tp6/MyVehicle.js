@@ -29,7 +29,10 @@ class MyVehicle extends CGFobject
 		this.top = new MyVehicleTop(scene, this.vehicleBreath, this.vehicleHeight);
 		this.bottom = new MyVehicleBottom(scene, this.vehicleBreath, this.vehicleDistanceToGround);
 		this.glass = new Plane(scene, 20);
+		this.trapezoidGlass1 = new MyTrapezoid(scene, 0.5);
+		this.trapezoidGlass2 = new MyTrapezoid(scene, 0.5, true);
 
+		// Vehicle Materials
 		this.blueColorMaterial = new CGFappearance(scene);
 		this.blueColorMaterial.setAmbient(0.05 , 0.05 , 0.20 , 1);
 		this.blueColorMaterial.setDiffuse(0.025 , 0.025 , 0.10 , 1);
@@ -38,9 +41,9 @@ class MyVehicle extends CGFobject
 
 		this.glassMaterial = new CGFappearance(scene);
 		this.glassMaterial.setAmbient(179/255, 217/255, 255/255, 1);
-		this.glassMaterial.setDiffuse(179/400, 217/400, 255/400, 1);
+		this.glassMaterial.setDiffuse(0, 0, 0, 1);
 		this.glassMaterial.setSpecular(179/255, 217/255, 255/255, 1);
-		this.glassMaterial.setShininess(50);
+		this.glassMaterial.setShininess(150);
 
         this.metalAppearance = new CGFappearance(this.scene);
         this.metalAppearance.loadTexture("./resources/images/metal.jpg");
@@ -171,6 +174,34 @@ class MyVehicle extends CGFobject
 			this.scene.rotate(-Math.PI/2-0.927295, 1, 0, 0);
 			this.scene.scale(this.vehicleBreath-0.2, Math.sqrt(1 + 0.75*0.75)-0.2, 1);
 			this.glass.display();
+        this.scene.popMatrix();
+
+		// Right Side glasses
+        this.scene.pushMatrix();
+			this.scene.translate(this.vehicleBreath + 0.01, 1.5, 1.225);
+			this.scene.rotate(Math.PI/2, 0, 1, 0);
+			this.scene.scale(1.25, 0.75, 1);
+			this.trapezoidGlass1.display();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
+			this.scene.translate(this.vehicleBreath + 0.01, 1.5, 2.85);
+			this.scene.rotate(-Math.PI/2, 0, 1, 0);
+			this.scene.scale(1.5, 0.75, 1);
+			this.trapezoidGlass2.display();
+        this.scene.popMatrix();
+
+		// Left Side glasses
+        this.scene.pushMatrix();
+			this.scene.translate(-0.01, 1.5, 2.85);
+			this.scene.rotate(-Math.PI/2, 0, 1, 0);
+			this.scene.scale(1.5, 0.75, 1);
+			this.trapezoidGlass1.display();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
+			this.scene.translate(-0.01, 1.5, 1.225);
+			this.scene.rotate(Math.PI/2, 0, 1, 0);
+			this.scene.scale(1.25, 0.75, 1);
+			this.trapezoidGlass2.display();
         this.scene.popMatrix();
 
     };

@@ -14,7 +14,7 @@ class MyVehicleTop extends CGFobject
     };
 
     display() {
-		// Front Glass
+		// Front Part
         this.scene.pushMatrix();
             this.scene.translate(this.vehicleBreath/2, 1.5, 3.5);
 			this.scene.rotate(-Math.PI/4, 1, 0, 0);
@@ -30,7 +30,7 @@ class MyVehicleTop extends CGFobject
 			this.quad.display();
         this.scene.popMatrix();
 
-		// Back Glass
+		// Back Part
         this.scene.pushMatrix();
             this.scene.translate(this.vehicleBreath/2, this.vehicleHeight-0.5, 0.625);
 			this.scene.rotate(-Math.PI/2-0.927295, 1, 0, 0);
