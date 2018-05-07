@@ -53,13 +53,30 @@ class MyVehicle extends CGFobject
         this.licensePlateAppearance = new CGFappearance(this.scene);
         this.licensePlateAppearance.loadTexture("./resources/images/licensePlate.jpg");
 
+		// Vehicle Status
+		this.x = 0;
+		this.z = 0;
         this.turningSpeed = 5;
+		this.vehicleSpeed = 0.1;
+		this.direction_angle = 0;
     };
 
     update(currTime) {
         this.wheel.setAngle(currTime/1000 * 360/60);
 	    this.turningWheel.setAngle(currTime/1000 * 360/60);
     }
+
+	updatePosition(dir) {
+		if (dir == "front") {
+			this.direction_angle += this.turningWheel.getTurningAngle()/40;	// Divide by factor 40 to make the curve smooth
+			this.z += this.vehicleSpeed * Math.cos(this.direction_angle);
+			this.x += this.vehicleSpeed * Math.sin(this.direction_angle);
+		} else if (dir == "back") {
+		this.direction_angle -= this.turningWheel.getTurningAngle()/40;		// Divide by factor 40 to make the curve smooth
+			this.z -= this.vehicleSpeed * Math.cos(this.direction_angle);
+			this.x -= this.vehicleSpeed * Math.sin(this.direction_angle);
+		}
+	}
 
     descreaseFrontWheelAngle() {
         this.turningWheel.changeTurningAngleBy(-this.turningSpeed);
@@ -75,7 +92,18 @@ class MyVehicle extends CGFobject
         }
     }
 
+	moveVehicle() {
+		// Perform the movement itself
+		this.scene.translate(this.x, 0, this.z);
+
+		// The vehicle has frontal traction, make rotation around back wheels and replace vehicle's position
+		this.scene.translate(this.vehicleBreath/2, 0, this.vehicleLength/3);
+		this.scene.rotate(this.direction_angle, 0, 1, 0);
+		this.scene.translate(-this.vehicleBreath/2, 0, -this.vehicleLength/3);
+	}
+
     display() {
+		this.moveVehicle();
 
 		// Tire #1
         this.scene.pushMatrix();

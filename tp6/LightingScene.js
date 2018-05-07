@@ -55,6 +55,7 @@ class LightingScene extends CGFscene {
 		if (this.gui.isKeyPressed("KeyW")) {
 			text += " W ";
 			keysPressed = true;
+			this.vehicle.updatePosition("front");
 		}
 		if (this.gui.isKeyPressed("KeyA")) {
 			text += " A ";
@@ -70,6 +71,7 @@ class LightingScene extends CGFscene {
 		if (this.gui.isKeyPressed("KeyS")) {
 			text += " S ";
 			keysPressed = true;
+			this.vehicle.updatePosition("back");
 		}
 		if (keysPressed)
 			console.log(text);

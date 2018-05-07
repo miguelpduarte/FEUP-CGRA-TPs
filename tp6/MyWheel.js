@@ -18,8 +18,8 @@ class MyWheel extends CGFobject
 		this.turningAngle = 0;
         this.ANG_TO_RAD = Math.PI/180;
 
-        this.MIN_TURNING_ANGLE = -45 * this.ANG_TO_RAD;
-        this.MAX_TURNING_ANGLE = 45 * this.ANG_TO_RAD;
+        this.MIN_TURNING_ANGLE = -60 * this.ANG_TO_RAD;
+        this.MAX_TURNING_ANGLE = 60 * this.ANG_TO_RAD;
 
 		// Tire material
         this.tireAppearance = new CGFappearance(this.scene);
@@ -49,6 +49,10 @@ class MyWheel extends CGFobject
             this.turningAngle = this.MIN_TURNING_ANGLE;
         }
     }
+
+	getTurningAngle() {
+		return this.turningAngle;
+	}
 
     display() {
 
