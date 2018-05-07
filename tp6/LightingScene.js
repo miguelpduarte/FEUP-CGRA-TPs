@@ -31,7 +31,6 @@ class LightingScene extends CGFscene {
 
 		// Scene elements
 		this.floor = new MyTerrain(this, 80);
-		this.le = new MyVehicleHeadLight(this, 20);
 		this.vehicle = new MyVehicle(this);
 
 		// Materials

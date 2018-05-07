@@ -24,6 +24,7 @@ serialInclude([
 	'MyVehicleTop.js',
 	'MyVehicleBottom.js',
 	'MyVehicleHeadLight.js',
+	'MyVehicleSideMirror.js',
 	'MyExhaustPipe.js',
 	'MyTrapezoid.js',
 	'MyTriangle.js',

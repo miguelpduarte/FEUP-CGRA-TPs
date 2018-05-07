@@ -32,6 +32,7 @@ class MyVehicle extends CGFobject
 		this.trapezoidGlass1 = new MyTrapezoid(scene, 0.5);
 		this.trapezoidGlass2 = new MyTrapezoid(scene, 0.5, true);
 		this.headLight = new MyVehicleHeadLight(scene, 20);
+		this.mirror = new MyVehicleSideMirror(scene);
 
 		// Vehicle Materials
 		this.blueColorMaterial = new CGFappearance(scene);
@@ -211,7 +212,7 @@ class MyVehicle extends CGFobject
 		// License Plate
 		this.licensePlateAppearance.apply();
 		this.scene.pushMatrix();
-			this.scene.translate(this.vehicleBreath/2, 0.6, this.vehicleLength-0.09);
+			this.scene.translate(this.vehicleBreath/2, 0.53, this.vehicleLength-0.09);
 			this.scene.scale(1, 0.214, 1);
 			this.quad.display();
         this.scene.popMatrix();
@@ -224,6 +225,21 @@ class MyVehicle extends CGFobject
 		this.scene.pushMatrix();
 			this.scene.translate(this.vehicleBreath-0.25, 0.53, this.vehicleLength-0.09);
 			this.headLight.display();
+        this.scene.popMatrix();
+
+		// Vehicle Right Side Mirror
+		this.blueColorMaterial.apply();
+		this.scene.pushMatrix();
+			this.scene.translate(this.vehicleBreath, 1.12, 3.72);
+			this.mirror.display();
+        this.scene.popMatrix();
+
+		// Vehicle Left Side Mirror
+		this.blueColorMaterial.apply();
+		this.scene.pushMatrix();
+			this.scene.translate(0, 1.12, 3.72);
+			this.scene.rotate(Math.PI, 0, 0, 1);
+			this.mirror.display();
         this.scene.popMatrix();
 
     };
