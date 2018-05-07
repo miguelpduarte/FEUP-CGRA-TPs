@@ -26,6 +26,7 @@ class LightingScene extends CGFscene {
 		this.gl.enable(this.gl.CULL_FACE);
 		this.gl.depthFunc(this.gl.LEQUAL);
 
+		this.axisIsActive = true;
 		this.axis = new CGFaxis(this);
 
 		// Scene elements
@@ -36,13 +37,14 @@ class LightingScene extends CGFscene {
 		// Materials
 		this.materialDefault = new CGFappearance(this);
 
-		this.floorAppearance = new CGFappearance(this);
-		this.floorAppearance.loadTexture("./resources/images/floor.png");
-
 		this.enableTextures(true);
 
 		this.setUpdatePeriod(1000 / FRAME_RATE);
 	};
+
+	initSceneElements() {
+
+	}
 
 	initCameras() {
 		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
@@ -80,12 +82,11 @@ class LightingScene extends CGFscene {
 	}
 
 	initLights() {
-		this.nLights = 4;
+		this.nLights = 6;
 
 		this.setGlobalAmbientLight(0.4, 0.4, 0.4, 1.0);
 
 		let lightHeight = 2.8;
-		let numLights = 6;
 
 		this.lights[0].setPosition(3, lightHeight, -1, 1);
 		this.lights[1].setPosition(-1, lightHeight, -1, 1);
@@ -94,7 +95,7 @@ class LightingScene extends CGFscene {
 		this.lights[4].setPosition(3, lightHeight, 7, 1);
 		this.lights[5].setPosition(-1, lightHeight, 7, 1);
 
-		for (let i=0 ; i<6 ; i++) {
+		for (let i=0 ; i<this.nLights ; i++) {
 			this.lights[i].setVisible(true);
 			this.lights[i].setAmbient(0, 0, 0, 1);
 			this.lights[i].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -102,6 +103,10 @@ class LightingScene extends CGFscene {
 			this.lights[i].enable();
 		}
 	};
+
+	toggleAxis() {
+		this.axisIsActive = !this.axisIsActive;
+	}
 
 	updateLights() {
 		for (var i = 0; i < this.lights.length; i++)
@@ -134,7 +139,9 @@ class LightingScene extends CGFscene {
 		this.updateLights();
 
 		// Draw axis
-		this.axis.display();
+		if (this.axisIsActive) {
+			this.axis.display();
+		}
 
 		this.materialDefault.apply();
 
@@ -144,8 +151,6 @@ class LightingScene extends CGFscene {
 
 		// Floor
 		this.pushMatrix();
-			this.scale(50, 1, 50);
-			this.rotate(-90 * degToRad, 1, 0, 0);
 			this.floor.display();
 		this.popMatrix();
 

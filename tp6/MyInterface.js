@@ -23,10 +23,18 @@ class MyInterface extends CGFinterface {
         this.model = {};
 
         this.initKeys();
+        this.createAxisCheckbox();
         this.createLightCheckboxes();
 
         return true;
     };
+
+    createAxisCheckbox() {
+        this.gui['Eixo'] = true;
+        this.gui.add(this.gui, 'Eixo').onChange((val) => {
+            this.scene.toggleAxis();
+        });
+    }
 
     createLightCheckboxes() {
         let nLights = this.scene.nLights;
