@@ -211,18 +211,18 @@ class MyVehicle extends CGFobject
 		// License Plate
 		this.licensePlateAppearance.apply();
 		this.scene.pushMatrix();
-			this.scene.translate(this.vehicleBreath/2, 0.6, this.vehicleLength+0.01);
+			this.scene.translate(this.vehicleBreath/2, 0.6, this.vehicleLength-0.09);
 			this.scene.scale(1, 0.214, 1);
 			this.quad.display();
         this.scene.popMatrix();
 
 		// Head Lights
 		this.scene.pushMatrix();
-			this.scene.translate(0.25, 0.53, this.vehicleLength+0.01);
+			this.scene.translate(0.25, 0.53, this.vehicleLength-0.09);
 			this.headLight.display();
         this.scene.popMatrix();
 		this.scene.pushMatrix();
-			this.scene.translate(this.vehicleBreath-0.25, 0.53, this.vehicleLength+0.01);
+			this.scene.translate(this.vehicleBreath-0.25, 0.53, this.vehicleLength-0.09);
 			this.headLight.display();
         this.scene.popMatrix();
 
