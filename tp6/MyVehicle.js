@@ -31,6 +31,7 @@ class MyVehicle extends CGFobject
 		this.glass = new Plane(scene, 20);
 		this.trapezoidGlass1 = new MyTrapezoid(scene, 0.5);
 		this.trapezoidGlass2 = new MyTrapezoid(scene, 0.5, true);
+		this.headLight = new MyVehicleHeadLight(scene, 20);
 
 		// Vehicle Materials
 		this.blueColorMaterial = new CGFappearance(scene);
@@ -47,6 +48,9 @@ class MyVehicle extends CGFobject
 
         this.metalAppearance = new CGFappearance(this.scene);
         this.metalAppearance.loadTexture("./resources/images/metal.jpg");
+
+        this.licensePlateAppearance = new CGFappearance(this.scene);
+        this.licensePlateAppearance.loadTexture("./resources/images/licensePlate.jpg");
 
         this.turningSpeed = 5;
     };
@@ -202,6 +206,24 @@ class MyVehicle extends CGFobject
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.scene.scale(1.25, 0.75, 1);
 			this.trapezoidGlass2.display();
+        this.scene.popMatrix();
+
+		// License Plate
+		this.licensePlateAppearance.apply();
+		this.scene.pushMatrix();
+			this.scene.translate(this.vehicleBreath/2, 0.6, this.vehicleLength+0.01);
+			this.scene.scale(1, 0.214, 1);
+			this.quad.display();
+        this.scene.popMatrix();
+
+		// Head Lights
+		this.scene.pushMatrix();
+			this.scene.translate(0.25, 0.53, this.vehicleLength+0.01);
+			this.headLight.display();
+        this.scene.popMatrix();
+		this.scene.pushMatrix();
+			this.scene.translate(this.vehicleBreath-0.25, 0.53, this.vehicleLength+0.01);
+			this.headLight.display();
         this.scene.popMatrix();
 
     };
