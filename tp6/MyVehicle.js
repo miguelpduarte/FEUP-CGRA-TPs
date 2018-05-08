@@ -57,24 +57,31 @@ class MyVehicle extends CGFobject
 		this.x = 0;
 		this.z = 0;
         this.turningSpeed = 5;
-		this.vehicleSpeed = 0.1;
+		this.vehicleSpeed = 0.08;
 		this.direction_angle = 0;
     };
 
-    update(currTime) {
-        this.wheel.setAngle(currTime/1000 * 360/60);
-	    this.turningWheel.setAngle(currTime/1000 * 360/60);
-    }
-
-	updatePosition(dir) {
+	update(dir) {
 		if (dir == "front") {
 			this.direction_angle += this.turningWheel.getTurningAngle()/40;	// Divide by factor 40 to make the curve smooth
 			this.z += this.vehicleSpeed * Math.cos(this.direction_angle);
 			this.x += this.vehicleSpeed * Math.sin(this.direction_angle);
+			this.turnWheels(dir);
 		} else if (dir == "back") {
 		this.direction_angle -= this.turningWheel.getTurningAngle()/40;		// Divide by factor 40 to make the curve smooth
 			this.z -= this.vehicleSpeed * Math.cos(this.direction_angle);
 			this.x -= this.vehicleSpeed * Math.sin(this.direction_angle);
+			this.turnWheels(dir);
+		}
+	}
+
+	turnWheels(dir) {
+		if (dir == "front") {
+			this.wheel.changeAngleBy(this.vehicleSpeed/this.wheelRadius);
+			this.turningWheel.changeAngleBy(this.vehicleSpeed/this.wheelRadius);
+		} else if (dir == "back") {
+			this.wheel.changeAngleBy(-this.vehicleSpeed/this.wheelRadius);
+			this.turningWheel.changeAngleBy(-this.vehicleSpeed/this.wheelRadius);
 		}
 	}
 
@@ -87,7 +94,7 @@ class MyVehicle extends CGFobject
     }
 
     setFrontWheelsAngle(angle) {
-        if (angle <= 45 && angle >= -45) {
+        if (angle <= this.turningWheel.getMaxTurningAngle() && angle >= this.turningWheel.getMinTurningAngle()) {
             this.turningWheel.setTurningAngle(angle);
         }
     }

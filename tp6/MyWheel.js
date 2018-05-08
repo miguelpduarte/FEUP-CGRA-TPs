@@ -36,6 +36,10 @@ class MyWheel extends CGFobject
         this.angle = 12*angle * this.ANG_TO_RAD;
     }
 
+	changeAngleBy(angle) {
+		this.angle += angle;
+	}
+
 	setTurningAngle(angle) {
         this.turningAngle = angle * this.ANG_TO_RAD;
     }
@@ -49,6 +53,14 @@ class MyWheel extends CGFobject
             this.turningAngle = this.MIN_TURNING_ANGLE;
         }
     }
+
+	getMaxTurningAngle() {
+		return this.MAX_TURNING_ANGLE;
+	}
+
+	getMinTurningAngle() {
+		return this.MIN_TURNING_ANGLE;
+	}
 
 	getTurningAngle() {
 		return this.turningAngle;
