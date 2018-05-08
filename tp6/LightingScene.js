@@ -78,6 +78,7 @@ class LightingScene extends CGFscene {
 
 	update(currTime) {
 		this.checkKeys();
+		this.vehicle.updatePos(currTime);
 	}
 
 	initLights() {

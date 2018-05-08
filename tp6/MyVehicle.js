@@ -53,36 +53,43 @@ class MyVehicle extends CGFobject
         this.licensePlateAppearance = new CGFappearance(this.scene);
         this.licensePlateAppearance.loadTexture("./resources/images/licensePlate.jpg");
 
-		// Vehicle Status
+		// Vehicle Physics and Status
 		this.x = 0;
 		this.z = 0;
-        this.turningSpeed = 5;
-		this.vehicleSpeed = 0.08;
 		this.direction_angle = 0;
+        this.turningSpeed = 5;
+		this.vehicleSpeed = 0;
+		this.vehicleMaxSpeed = 0.2;
+		this.vehicleMinSpeed = -this.vehicleMaxSpeed;
+		this.vehicleAcceleration = 0.004;
+		this.ground_friction = 0.0016;
     };
 
 	update(dir) {
 		if (dir == "front") {
-			this.direction_angle += this.turningWheel.getTurningAngle()/40;	// Divide by factor 40 to make the curve smooth
-			this.z += this.vehicleSpeed * Math.cos(this.direction_angle);
-			this.x += this.vehicleSpeed * Math.sin(this.direction_angle);
-			this.turnWheels(dir);
-		} else if (dir == "back") {
-		this.direction_angle -= this.turningWheel.getTurningAngle()/40;		// Divide by factor 40 to make the curve smooth
-			this.z -= this.vehicleSpeed * Math.cos(this.direction_angle);
-			this.x -= this.vehicleSpeed * Math.sin(this.direction_angle);
-			this.turnWheels(dir);
+			this.vehicleSpeed = Math.min(this.vehicleSpeed + this.vehicleAcceleration, this.vehicleMaxSpeed);
+		}
+		else if (dir == "back") {
+			this.vehicleSpeed = Math.max(this.vehicleSpeed - this.vehicleAcceleration, this.vehicleMinSpeed);
 		}
 	}
 
-	turnWheels(dir) {
-		if (dir == "front") {
-			this.wheel.changeAngleBy(this.vehicleSpeed/this.wheelRadius);
-			this.turningWheel.changeAngleBy(this.vehicleSpeed/this.wheelRadius);
-		} else if (dir == "back") {
-			this.wheel.changeAngleBy(-this.vehicleSpeed/this.wheelRadius);
-			this.turningWheel.changeAngleBy(-this.vehicleSpeed/this.wheelRadius);
+	updatePos() {
+		// Update vehicle angle based on the wheels angle
+		this.direction_angle += this.vehicleSpeed*this.turningWheel.getTurningAngle()/3.5;	// Divide by factor 3 to make the curve smooth
+
+		// Add ground friction
+		if (this.vehicleSpeed != 0) {
+			this.vehicleSpeed -= this.ground_friction * (this.vehicleSpeed/Math.abs(this.vehicleSpeed));
 		}
+
+		// Move the vehicle
+		this.z += this.vehicleSpeed * Math.cos(this.direction_angle);
+		this.x += this.vehicleSpeed * Math.sin(this.direction_angle);
+
+		// Turn wheels
+		this.wheel.changeAngleBy(Math.cos(this.turningWheel.getTurningAngle())*this.vehicleSpeed/this.wheelRadius);
+		this.turningWheel.changeAngleBy(Math.cos(this.turningWheel.getTurningAngle())*this.vehicleSpeed/this.wheelRadius);
 	}
 
     descreaseFrontWheelAngle() {
