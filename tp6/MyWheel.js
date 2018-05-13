@@ -46,7 +46,6 @@ class MyWheel extends CGFobject
 
     changeTurningAngleBy(angleDelta) {
         this.turningAngle += angleDelta * this.ANG_TO_RAD;
-        console.log(this.turningAngle);
         if(this.turningAngle > this.MAX_TURNING_ANGLE) {
             this.turningAngle = this.MAX_TURNING_ANGLE;
         } else if(this.turningAngle < this.MIN_TURNING_ANGLE) {

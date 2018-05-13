@@ -81,6 +81,10 @@ class MyVehicle extends CGFobject
 		// Add ground friction
 		if (this.vehicleSpeed != 0) {
 			this.vehicleSpeed -= this.ground_friction * (this.vehicleSpeed/Math.abs(this.vehicleSpeed));
+
+			if (this.turningWheel.getTurningAngle() != 0) {
+				this.turningWheel.changeTurningAngleBy(-6*Math.abs(this.vehicleSpeed)*(this.turningWheel.getTurningAngle()/Math.abs(this.turningWheel.getTurningAngle())));
+			}
 		}
 
 		// Move the vehicle
