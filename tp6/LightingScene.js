@@ -123,6 +123,10 @@ class LightingScene extends CGFscene {
 		}
 	}
 
+	setTexturePack(index) {
+		console.log("Selected texture pack with index " + index);
+	}
+
 	display() {
 		// ---- BEGIN Background, camera and axis setup
 
