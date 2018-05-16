@@ -26,7 +26,7 @@ class MyWheel extends CGFobject
         this.tireAppearance.loadTexture("./resources/images/tire.jpg");
 
         this.metalAppearance = new CGFappearance(this.scene);
-        this.metalAppearance.loadTexture("./resources/images/metal2.jpeg");
+        this.metalAppearance.loadTexture("./resources/images/metal.jpg");
 
         this.tireSideAppearance = new CGFappearance(this.scene);
         this.tireSideAppearance.loadTexture("./resources/images/tireSide.jpg");
