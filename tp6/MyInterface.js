@@ -52,10 +52,10 @@ class MyInterface extends CGFinterface {
     createTexturePackDropdown() {
         this.model.texturePackIndex = 0;
         let texPackDropdownModel = {
-            "Pack 1": 0,
-            "Pack 2": 1,
-            "Pack 3": 2,
-            "Pack 4": 3
+            "Standard": 0,
+            "Stylish": 1,
+            "Taxi": 2,
+            "WIP": 3
         }
         this.gui.add(this.model, "texturePackIndex", texPackDropdownModel).name("Texture Pack").onChange((val) => {
             this.scene.setTexturePack(val);
