@@ -30,6 +30,7 @@ serialInclude([
 	'MyTriangle.js',
 	'StandardTextureGroup.js',
 	'StylishTextureGroup.js',
+	'TaxiTextureGroup.js',
 	'MyInterface.js',
 
 	main=function() {

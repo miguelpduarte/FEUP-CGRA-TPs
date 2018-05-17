@@ -18,8 +18,11 @@ class StylishTextureGroup extends CGFobject
 		this.paintMaterial.setSpecular(6/255 , 0/255 , 4/255 , 1);
 		this.paintMaterial.setShininess(50);
 		
-        this.secondaryPaintMaterial = this.paintMaterial;
-		this.terciaryPaintMaterial = this.paintMaterial;
+        this.secondaryPaintMaterial = new CGFappearance(this.scene);
+        this.secondaryPaintMaterial.loadTexture("./resources/images/crown.jpg");
+
+		this.terciaryPaintMaterial = new CGFappearance(this.scene);
+        this.terciaryPaintMaterial.loadTexture("./resources/images/cards.jpg");
 
 		this.paintMaterial = new CGFappearance(scene);
 		this.paintMaterial.setAmbient(54/255 , 0/255 , 42/255 , 1);
