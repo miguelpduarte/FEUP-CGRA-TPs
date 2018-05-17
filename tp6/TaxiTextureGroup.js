@@ -41,7 +41,7 @@ class TaxiTextureGroup extends CGFobject
         this.wheelTireMaterial.loadTexture("./resources/images/tire.jpg");
 
         this.wheelRimMaterial = new CGFappearance(this.scene);
-        this.wheelRimMaterial.loadTexture("./resources/images/metal.jpg");
+        this.wheelRimMaterial.loadTexture("./resources/images/taxiMetal.jpg");
 
         this.wheelTireSideMaterial = new CGFappearance(this.scene);
 		this.wheelTireSideMaterial.loadTexture("./resources/images/tireSide.jpg");

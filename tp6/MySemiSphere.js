@@ -38,7 +38,7 @@ class MySemiSphere extends CGFobject
 				);
 
 				this.texCoords.push(
-					((Math.cos(alpha_angle*j)*Math.cos(omega_angle*i))+1)/2, ((Math.cos(alpha_angle*j)*Math.sin(omega_angle*i))+1)/2
+					((Math.cos(alpha_angle*j)*Math.cos(omega_angle*i))+1)/2, 1 - ((Math.cos(alpha_angle*j)*Math.sin(omega_angle*i))+1)/2
 				);
 
 			}
