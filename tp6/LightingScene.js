@@ -29,16 +29,19 @@ class LightingScene extends CGFscene {
 		this.axisIsActive = true;
 		this.axis = new CGFaxis(this);
 
+		// Materials
+		this.vehicleTextureGroups = [new StandardTextureGroup(this), new StylishTextureGroup(this), new TaxiTextureGroup(this)];
+		this.materialDefault = new CGFappearance(this);
+
 		// Scene elements
 		this.floor = new MyTerrain(this, 80);
 		this.vehicle = new MyVehicle(this);
-
-		// Materials
-		this.materialDefault = new CGFappearance(this);
+		this.vehicle.setTextureGroup(this.vehicleTextureGroups[0]);
 
 		this.enableTextures(true);
 
 		this.setUpdatePeriod(1000 / FRAME_RATE);
+
 	};
 
 	initSceneElements() {
@@ -124,7 +127,7 @@ class LightingScene extends CGFscene {
 	}
 
 	setTexturePack(index) {
-		console.log("Selected texture pack with index " + index);
+		this.vehicle.setTextureGroup(this.vehicleTextureGroups[index]);
 	}
 
 	display() {

@@ -9,7 +9,7 @@ class MyVehicle extends CGFobject
 		super(scene);
 		
 		// Vehicle Materials
-		this.texGroup = new TaxiTextureGroup(scene);
+		this.texGroup = undefined;
 
 		// Vehicle Dimensions
 		this.wheelRadius = 0.35;
@@ -47,7 +47,11 @@ class MyVehicle extends CGFobject
 		this.vehicleMinSpeed = -this.vehicleMaxSpeed;
 		this.vehicleAcceleration = 4E-3;
 		this.ground_friction = 16E-4;
-    };
+	};
+	
+	setTextureGroup(texGroup) {
+		this.texGroup = texGroup;
+	}
 
 	update(dir) {
 		if (dir == "front") {
