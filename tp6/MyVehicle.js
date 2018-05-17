@@ -6,7 +6,10 @@ class MyVehicle extends CGFobject
 {
 	constructor(scene)
 	{
-        super(scene);
+		super(scene);
+		
+		// Vehicle Materials
+		this.texGroup = new StylishTextureGroup(scene);
 
 		// Vehicle Dimensions
 		this.wheelRadius = 0.35;
@@ -17,41 +20,22 @@ class MyVehicle extends CGFobject
 		this.vehicleDistanceToGround = 1/3;
 
 		// Vehicle Parts
-        this.wheel = new MyWheel(scene, 20);
-        this.turningWheel = new MyWheel(scene, 20);
+        this.wheel = new MyWheel(scene, this, 20);
+        this.turningWheel = new MyWheel(scene, this, 20);
 		this.cube = new MyUnitCubeQuad(scene);
 		this.quad = new MyQuad(scene);
 		this.triangle = new MyTriangle(scene);
 		this.circle = new MyCircle(scene, 20);
-		this.rightSide = new MyVehicleRightSide(scene, this.vehicleDistanceToGround);
-		this.leftSide = new MyVehicleLeftSide(scene, this.vehicleDistanceToGround);
+		this.rightSide = new MyVehicleRightSide(scene, this, this.vehicleDistanceToGround);
+		this.leftSide = new MyVehicleLeftSide(scene, this, this.vehicleDistanceToGround);
 		this.exhaustPipe = new MyExhaustPipe(scene);
-		this.top = new MyVehicleTop(scene, this.vehicleBreath, this.vehicleHeight);
+		this.top = new MyVehicleTop(scene, this, this.vehicleBreath, this.vehicleHeight);
 		this.bottom = new MyVehicleBottom(scene, this.vehicleBreath, this.vehicleDistanceToGround);
 		this.glass = new Plane(scene, 20);
 		this.trapezoidGlass1 = new MyTrapezoid(scene, 0.5);
 		this.trapezoidGlass2 = new MyTrapezoid(scene, 0.5, true);
-		this.headLight = new MyVehicleHeadLight(scene, 20);
-		this.mirror = new MyVehicleSideMirror(scene);
-
-		// Vehicle Materials
-		this.blueColorMaterial = new CGFappearance(scene);
-		this.blueColorMaterial.setAmbient(0.05 , 0.05 , 0.20 , 1);
-		this.blueColorMaterial.setDiffuse(0.025 , 0.025 , 0.10 , 1);
-		this.blueColorMaterial.setSpecular(0.05 , 0.05 , 0.20 , 1);
-		this.blueColorMaterial.setShininess(50);
-
-		this.glassMaterial = new CGFappearance(scene);
-		this.glassMaterial.setAmbient(179/255, 217/255, 255/255, 1);
-		this.glassMaterial.setDiffuse(0, 0, 0, 1);
-		this.glassMaterial.setSpecular(179/255, 217/255, 255/255, 1);
-		this.glassMaterial.setShininess(150);
-
-        this.metalAppearance = new CGFappearance(this.scene);
-        this.metalAppearance.loadTexture("./resources/images/metal.jpg");
-
-        this.licensePlateAppearance = new CGFappearance(this.scene);
-        this.licensePlateAppearance.loadTexture("./resources/images/licensePlate.jpg");
+		this.headLight = new MyVehicleHeadLight(scene, this, 20);
+		this.mirror = new MyVehicleSideMirror(scene, this);
 
 		// Vehicle Physics and Status
 		this.x = 0;
@@ -155,7 +139,7 @@ class MyVehicle extends CGFobject
 			this.turningWheel.display();
         this.scene.popMatrix();
 
-		this.blueColorMaterial.apply();
+		this.texGroup.paintMaterial.apply();
 
 		// Front
         this.scene.pushMatrix();
@@ -200,7 +184,7 @@ class MyVehicle extends CGFobject
         this.scene.popMatrix();
 
 		// Vehicle Exhaust Pipes
-		this.metalAppearance.apply();
+		this.texGroup.exhaustPipeMaterial.apply();
         this.scene.pushMatrix();
 			this.scene.translate(this.vehicleBreath-0.10, 0.4, -0.15);
 			this.exhaustPipe.display();
@@ -211,7 +195,7 @@ class MyVehicle extends CGFobject
         this.scene.popMatrix();
 
 		// Front Glass
-		this.glassMaterial.apply();
+		this.texGroup.glassMaterial.apply();
         this.scene.pushMatrix();
             this.scene.translate(this.vehicleBreath/2, 1.5 + 0.01, 3.5 + 0.01);
 			this.scene.rotate(-Math.PI/4, 1, 0, 0);
@@ -256,10 +240,11 @@ class MyVehicle extends CGFobject
         this.scene.popMatrix();
 
 		// License Plate
-		this.licensePlateAppearance.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(this.vehicleBreath/2, 0.53, this.vehicleLength-0.09);
 			this.scene.scale(1, 0.214, 1);
+
+			this.texGroup.licensePlateMaterial.apply();
 			this.quad.display();
         this.scene.popMatrix();
 
@@ -274,14 +259,14 @@ class MyVehicle extends CGFobject
         this.scene.popMatrix();
 
 		// Vehicle Right Side Mirror
-		this.blueColorMaterial.apply();
+		this.texGroup.paintMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(this.vehicleBreath, 1.12, 3.72);
 			this.mirror.display();
         this.scene.popMatrix();
 
 		// Vehicle Left Side Mirror
-		this.blueColorMaterial.apply();
+		this.texGroup.paintMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 1.12, 3.72);
 			this.scene.rotate(Math.PI, 0, 0, 1);

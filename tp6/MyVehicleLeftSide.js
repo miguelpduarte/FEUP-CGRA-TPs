@@ -4,16 +4,18 @@
  */
 class MyVehicleLeftSide extends CGFobject
 {
-	constructor(scene, vehicleDistanceToGround)
+	constructor(scene, vehicle, vehicleDistanceToGround)
 	{
         super(scene);
 
+		this.vehicle = vehicle;
 		this.quad = new MyQuad(scene);
 		this.triangle = new MyTriangle(scene);
 		this.vehicleDistanceToGround = vehicleDistanceToGround;
     };
 
     display() {
+		this.vehicle.texGroup.paintMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 1.5, 0.625);
 			this.scene.scale(1, 1, 0.75);
@@ -35,6 +37,8 @@ class MyVehicleLeftSide extends CGFobject
 			this.triangle.display();
         this.scene.popMatrix();
 
+
+		this.vehicle.texGroup.terciaryPaintMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 0.875, 1);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);
@@ -49,6 +53,7 @@ class MyVehicleLeftSide extends CGFobject
 			this.quad.display();
 		this.scene.popMatrix();
 
+		this.vehicle.texGroup.paintMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 5/24+this.vehicleDistanceToGround, 2.25);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);

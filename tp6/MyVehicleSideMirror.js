@@ -4,19 +4,14 @@
  */
 class MyVehicleSideMirror extends CGFobject
 {
-	constructor(scene)
+	constructor(scene, vehicle)
 	{
         super(scene);
 
+		this.vehicle = vehicle;
 		this.semiSphere = new MySemiSphere(scene, 30, 30);
 		this.circle = new MyCircle(scene, 30);
 		this.cylinder = new MyCylinder(scene, 20, 20);
-
-		this.glassMaterial = new CGFappearance(scene);
-		this.glassMaterial.setAmbient(179/255, 217/255, 255/255, 1);
-		this.glassMaterial.setDiffuse(0, 0, 0, 1);
-		this.glassMaterial.setSpecular(179/255, 217/255, 255/255, 1);
-		this.glassMaterial.setShininess(150);
     };
 
     display() {
@@ -41,11 +36,12 @@ class MyVehicleSideMirror extends CGFobject
         this.scene.popMatrix();
 
 		// Mirror glass
-		this.glassMaterial.apply();
         this.scene.pushMatrix();
 			this.scene.translate(0.15, 0, -0.021);
 			this.scene.rotate(Math.PI, 1, 0, 0);
 			this.scene.scale(0.11, 0.06, 1);
+			
+			this.vehicle.texGroup.glassMaterial.apply();
 			this.circle.display();
         this.scene.popMatrix();
     };

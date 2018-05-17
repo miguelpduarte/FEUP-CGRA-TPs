@@ -28,6 +28,8 @@ serialInclude([
 	'MyExhaustPipe.js',
 	'MyTrapezoid.js',
 	'MyTriangle.js',
+	'StandardTextureGroup.js',
+	'StylishTextureGroup.js',
 	'MyInterface.js',
 
 	main=function() {

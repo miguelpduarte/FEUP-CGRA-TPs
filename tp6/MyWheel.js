@@ -4,13 +4,16 @@
  */
 class MyWheel extends CGFobject
 {
-	constructor(scene, sides)
+	constructor(scene, vehicle, sides)
 	{
         super(scene);
 
+		this.vehicle = vehicle;
         this.body = new MyCylinder(this.scene, sides, 1);
         this.cover = new MyCircle(this.scene, sides);
 		this.rim = new MySemiSphere(this.scene, sides, sides);
+
+		console.log(vehicle.wheelRadius);
 
 		this.rimSize = 0.7;
 
@@ -20,16 +23,6 @@ class MyWheel extends CGFobject
 
         this.MIN_TURNING_ANGLE = -60 * this.ANG_TO_RAD;
         this.MAX_TURNING_ANGLE = 60 * this.ANG_TO_RAD;
-
-		// Tire material
-        this.tireAppearance = new CGFappearance(this.scene);
-        this.tireAppearance.loadTexture("./resources/images/tire.jpg");
-
-        this.metalAppearance = new CGFappearance(this.scene);
-        this.metalAppearance.loadTexture("./resources/images/metal.jpg");
-
-        this.tireSideAppearance = new CGFappearance(this.scene);
-        this.tireSideAppearance.loadTexture("./resources/images/tireSide.jpg");
     };
 
     setAngle(angle) {
@@ -73,8 +66,7 @@ class MyWheel extends CGFobject
 			this.scene.rotate(this.angle, 0, 0, 1);
 			this.scene.translate(0, 0, 0.5);
 			this.scene.scale(this.rimSize, this.rimSize, 0.1);
-
-			this.metalAppearance.apply();
+			this.vehicle.texGroup.wheelRimMaterial.apply();
             this.rim.display();
         this.scene.popMatrix();
 
@@ -86,7 +78,7 @@ class MyWheel extends CGFobject
 			this.scene.scale(this.rimSize, this.rimSize, 0.1);
 			this.scene.rotate(Math.PI, 0, 1, 0);
 
-			this.metalAppearance.apply();
+			this.vehicle.texGroup.wheelRimMaterial.apply();
             this.rim.display();
         this.scene.popMatrix();
 
@@ -96,7 +88,7 @@ class MyWheel extends CGFobject
             this.scene.rotate(this.angle, 0, 0, 1);
 			this.scene.translate(0, 0, 0.5);
 
-			this.tireSideAppearance.apply();
+			this.vehicle.texGroup.wheelTireSideMaterial.apply();
             this.cover.display();
         this.scene.popMatrix();
 
@@ -108,7 +100,7 @@ class MyWheel extends CGFobject
 			this.scene.scale(1, -1, 1);
 			this.scene.translate(0, 0, -0.5);
 
-			this.tireSideAppearance.apply();
+			this.vehicle.texGroup.wheelTireSideMaterial.apply();
             this.cover.display();
         this.scene.popMatrix();
 
@@ -117,8 +109,8 @@ class MyWheel extends CGFobject
 			this.scene.rotate(this.turningAngle, 0, 1, 0);
             this.scene.rotate(this.angle, 0, 0, 1);
 			this.scene.translate(0, 0, -0.5);
-
-		    this.tireAppearance.apply();
+			
+			this.vehicle.texGroup.wheelTireMaterial.apply();
             this.body.display();
         this.scene.popMatrix();
     };
