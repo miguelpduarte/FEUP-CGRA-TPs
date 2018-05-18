@@ -33,8 +33,20 @@ class LightingScene extends CGFscene {
 		this.vehicleTextureGroups = [new StandardTextureGroup(this), new StylishTextureGroup(this), new TaxiTextureGroup(this)];
 		this.materialDefault = new CGFappearance(this);
 
+		//Altimetry matrix
+    	this.altimetry= [[ 2.0 , 3.0 , 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0.0],
+						 [ 2.0 , 3.0 , 2.0, 4.0, 7.5, 6.4, 4.3, 1.3, 0.0],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0 , 0.0 , 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0.0],
+						 [ 0.0 , 0.0 , 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0.0],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0.0]
+					    ];
+
 		// Scene elements
-		this.floor = new MyTerrain(this, 80);
+		this.floor = new MyTerrain(this, 8, this.altimetry);
 		this.vehicle = new MyVehicle(this);
 		this.vehicle.setTextureGroup(this.vehicleTextureGroups[0]);
 

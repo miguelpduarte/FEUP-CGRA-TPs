@@ -5,7 +5,7 @@
 class MyTerrain extends Plane
 {
 
-    constructor(scene, nrDivs)
+    constructor(scene, nrDivs, altimetry)
 	{
 		super(scene, nrDivs, 0, 12, 0, 12);
 
@@ -14,7 +14,7 @@ class MyTerrain extends Plane
         this.appearance.loadTexture("./resources/images/terrain.jpg");
 
 		this.initBuffers();
-	};
+    };
 
     display()
 	{
