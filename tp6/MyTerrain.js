@@ -7,11 +7,15 @@ class MyTerrain extends Plane
 
     constructor(scene, nrDivs, altimetry)
 	{
-		super(scene, nrDivs, 0, 12, 0, 12);
+        super(scene, nrDivs, 0, 1, 0, 1, altimetry);
 
         // Floor material
         this.appearance = new CGFappearance(this.scene);
         this.appearance.loadTexture("./resources/images/terrain.jpg");
+		this.appearance.setAmbient(0.1 , 0.1 , 0.1 , 1);
+		this.appearance.setDiffuse(0.3 , 0.3 , 0.3 , 1);
+		this.appearance.setSpecular(0 , 0 , 0 , 1);
+		this.appearance.setShininess(50);
 
 		this.initBuffers();
     };

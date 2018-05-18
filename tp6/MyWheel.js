@@ -13,8 +13,6 @@ class MyWheel extends CGFobject
         this.cover = new MyCircle(this.scene, sides);
 		this.rim = new MySemiSphere(this.scene, sides, sides);
 
-		console.log(vehicle.wheelRadius);
-
 		this.rimSize = 0.7;
 
 		this.angle = 0;

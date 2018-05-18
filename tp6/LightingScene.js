@@ -34,19 +34,21 @@ class LightingScene extends CGFscene {
 		this.materialDefault = new CGFappearance(this);
 
 		//Altimetry matrix
-    	this.altimetry= [[ 2.0 , 3.0 , 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0.0],
-						 [ 2.0 , 3.0 , 2.0, 4.0, 7.5, 6.4, 4.3, 1.3, 0.0],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-						 [ 0.0 , 0.0 , 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0.0],
-						 [ 0.0 , 0.0 , 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0.0],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-						 [ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0.0]
+    	this.altimetry= [[ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.6, 2.2, 2.2, 1.6, 0.0],
+						 [ 0.0, 2.2, 4.5, 2.2, 0.0, 0.0, 2.9, 5.6, 5.6, 2.9, 0.0],
+						 [ 0.0, 4.5, 9.0, 4.5, 0.0, 0.0, 2.9, 5.6, 5.6, 2.9, 0.0],
+						 [ 0.0, 2.2, 4.5, 2.2, 0.0, 0.0, 2.9, 5.6, 5.6, 2.9, 0.0],
+						 [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.6, 2.9, 2.9, 1.6, 0.0],
+						 [ 0.0, 1.0, 3.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0, 3.0, 10 , 3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0, 1.0, 3.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0, 3.0, 10 , 3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0, 1.0, 3.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+						 [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 					    ];
 
 		// Scene elements
-		this.floor = new MyTerrain(this, 8, this.altimetry);
+		this.floor = new MyTerrain(this, 10, this.altimetry);
 		this.vehicle = new MyVehicle(this);
 		this.vehicle.setTextureGroup(this.vehicleTextureGroups[0]);
 
@@ -61,7 +63,7 @@ class LightingScene extends CGFscene {
 	}
 
 	initCameras() {
-		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
+		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 70), vec3.fromValues(0, 0, 0));
 	};
 
 	checkKeys() {
@@ -91,14 +93,14 @@ class LightingScene extends CGFscene {
 
 		this.setGlobalAmbientLight(0.4, 0.4, 0.4, 1.0);
 
-		let lightHeight = 2.8;
+		let lightHeight = 8;
 
-		this.lights[0].setPosition(3, lightHeight, -1, 1);
-		this.lights[1].setPosition(-1, lightHeight, -1, 1);
-		this.lights[2].setPosition(3, lightHeight, 3, 1);
-		this.lights[3].setPosition(-1, lightHeight, 3, 1);
-		this.lights[4].setPosition(3, lightHeight, 7, 1);
-		this.lights[5].setPosition(-1, lightHeight, 7, 1);
+		this.lights[0].setPosition(17, lightHeight, -17, 1);
+		this.lights[1].setPosition(-17, lightHeight, -17, 1);
+		this.lights[2].setPosition(17, lightHeight, 17, 1);
+		this.lights[3].setPosition(-17, lightHeight, 17, 1);
+		this.lights[4].setPosition(0, lightHeight, 8, 1);
+		this.lights[5].setPosition(0, lightHeight, -8, 1);
 
 		for (let i=0 ; i<this.nLights ; i++) {
 			this.lights[i].setVisible(true);
