@@ -53,32 +53,20 @@ class LightingScene extends CGFscene {
 	};
 
 	checkKeys() {
-		var text = "Keys pressed: ";
-		var keysPressed = false;
 		if (this.gui.isKeyPressed("KeyW")) {
-			text += " W ";
-			keysPressed = true;
 			this.vehicle.update("front");
 		}
 		if (this.gui.isKeyPressed("KeyS")) {
-			text += " S ";
-			keysPressed = true;
 			this.vehicle.update("back");
 		}
 
 		// Vehicle Turning
 		if (this.gui.isKeyPressed("KeyA")) {
-			text += " A ";
-			keysPressed = true;
 			this.vehicle.increaseFrontWheelAngle();
 		}
 		else if (this.gui.isKeyPressed("KeyD")) {
-			text += " D ";
-			keysPressed = true;
 			this.vehicle.descreaseFrontWheelAngle();
 		}
-		if (keysPressed)
-			console.log(text);
 	}
 
 	update(currTime) {
