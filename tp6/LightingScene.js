@@ -11,6 +11,7 @@ const FRAME_RATE = 60;
 class LightingScene extends CGFscene {
 	constructor() {
 		super();
+		this.time = 0;
 	};
 
 	init(application) {
@@ -66,26 +67,35 @@ class LightingScene extends CGFscene {
 		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 70), vec3.fromValues(0, 0, 0));
 	};
 
-	checkKeys() {
+	checkKeys(deltaTime) {
+		// Update Vehicle
 		if (this.gui.isKeyPressed("KeyW")) {
-			this.vehicle.update("front");
+			this.vehicle.update("front", deltaTime);
 		}
-		if (this.gui.isKeyPressed("KeyS")) {
-			this.vehicle.update("back");
+		else if (this.gui.isKeyPressed("KeyS")) {
+			this.vehicle.update("back", deltaTime);
+		}
+		else {
+			this.vehicle.update("none", deltaTime);
 		}
 
 		// Vehicle Turning
 		if (this.gui.isKeyPressed("KeyA")) {
-			this.vehicle.increaseFrontWheelAngle();
+			this.vehicle.increaseFrontWheelAngle(deltaTime);
 		}
 		else if (this.gui.isKeyPressed("KeyD")) {
-			this.vehicle.descreaseFrontWheelAngle();
+			this.vehicle.descreaseFrontWheelAngle(deltaTime);
 		}
 	}
 
 	update(currTime) {
-		this.checkKeys();
-		this.vehicle.updatePos(currTime);
+		// Compute the time that has passed
+		let deltaTime = currTime - this.time;
+
+		// Update the time
+		this.time = currTime;
+
+		this.checkKeys(deltaTime);
 	}
 
 	initLights() {

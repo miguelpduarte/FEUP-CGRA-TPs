@@ -41,55 +41,62 @@ class MyVehicle extends CGFobject
 		this.x = 0;
 		this.z = 8;
 		this.direction_angle = 0;
-        this.turningSpeed = 5;
+        this.turningSpeed = 0.2;
 		this.vehicleSpeed = 0;
-		this.vehicleMaxSpeed = 0.2;
+		this.vehicleMaxSpeed = 0.01;
 		this.vehicleMinSpeed = -this.vehicleMaxSpeed;
-		this.vehicleAcceleration = 4E-3;
-		this.ground_friction = 16E-4;
+		this.vehicleAcceleration = 8E-6;
+		this.groundFriction = 0.95;
 	};
 	
 	setTextureGroup(texGroup) {
 		this.texGroup = texGroup;
 	}
 
-	update(dir) {
-		if (dir == "front") {
-			this.vehicleSpeed = Math.min(this.vehicleSpeed + this.vehicleAcceleration, this.vehicleMaxSpeed);
+	update(direction, deltaTime) {
+		// Update direcion
+		if (direction == "front") {
+			this.vehicleSpeed = Math.min(this.vehicleSpeed + this.vehicleAcceleration*deltaTime, this.vehicleMaxSpeed);
 		}
-		else if (dir == "back") {
-			this.vehicleSpeed = Math.max(this.vehicleSpeed - this.vehicleAcceleration, this.vehicleMinSpeed);
+		else if (direction == "back") {
+			this.vehicleSpeed = Math.max(this.vehicleSpeed - this.vehicleAcceleration*deltaTime, this.vehicleMinSpeed);
 		}
-	}
+		else {
+			// If no input is being entered by the user, assert the speed
+			this.assertSpeed(deltaTime);
+		}
 
-	updatePos() {
-		// Update vehicle angle based on the wheels angle
-		this.direction_angle += this.vehicleSpeed*this.turningWheel.getTurningAngle()/3.5;	// Divide by factor 3 to make the curve smooth
-
-		// Add ground friction
+		// If the vehicle is moving, assert the turning angle
 		if (this.vehicleSpeed != 0) {
-			this.vehicleSpeed -= this.ground_friction * (this.vehicleSpeed/Math.abs(this.vehicleSpeed));
-
-			if (this.turningWheel.getTurningAngle() != 0) {
-				this.turningWheel.changeTurningAngleBy(-6*Math.abs(this.vehicleSpeed)*(this.turningWheel.getTurningAngle()/Math.abs(this.turningWheel.getTurningAngle())));
-			}
+			this.assertTurningAngle(deltaTime);
 		}
+
+		// Update vehicle angle based on the wheels angle
+		this.direction_angle += this.vehicleSpeed * deltaTime * this.turningWheel.getTurningAngle()/3.5;	// Divide by factor 3 to make the curve smooth
 
 		// Move the vehicle
-		this.z += this.vehicleSpeed * Math.cos(this.direction_angle);
-		this.x += this.vehicleSpeed * Math.sin(this.direction_angle);
+		this.z += this.vehicleSpeed * deltaTime * Math.cos(this.direction_angle);
+		this.x += this.vehicleSpeed * deltaTime * Math.sin(this.direction_angle);
 
 		// Turn wheels
-		this.wheel.changeAngleBy(Math.cos(this.turningWheel.getTurningAngle())*this.vehicleSpeed/this.wheelRadius);
-		this.turningWheel.changeAngleBy(Math.cos(this.turningWheel.getTurningAngle())*this.vehicleSpeed/this.wheelRadius);
+		this.wheel.changeAngleBy(Math.cos(this.turningWheel.getTurningAngle())*this.vehicleSpeed*deltaTime/this.wheelRadius);
+		this.turningWheel.changeAngleBy(Math.cos(this.turningWheel.getTurningAngle())*this.vehicleSpeed*deltaTime/this.wheelRadius);
 	}
 
-    descreaseFrontWheelAngle() {
-        this.turningWheel.changeTurningAngleBy(-this.turningSpeed);
+	assertSpeed(deltaTime) {
+		this.vehicleSpeed -= this.vehicleSpeed * (1 - this.groundFriction);
+	}
+
+	assertTurningAngle(deltaTime) {
+		this.turningWheel.changeTurningAngleBy(-6*Math.abs(this.vehicleSpeed*deltaTime)*Math.sign(this.turningWheel.getTurningAngle()));
+	}
+
+    descreaseFrontWheelAngle(deltaTime) {
+        this.turningWheel.changeTurningAngleBy(-this.turningSpeed*deltaTime);
     }
 
-    increaseFrontWheelAngle() {
-        this.turningWheel.changeTurningAngleBy(this.turningSpeed);
+    increaseFrontWheelAngle(deltaTime) {
+        this.turningWheel.changeTurningAngleBy(this.turningSpeed*deltaTime);
     }
 
     setFrontWheelsAngle(angle) {
