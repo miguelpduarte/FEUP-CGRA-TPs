@@ -110,9 +110,10 @@ class MyVehicle extends CGFobject
 		this.scene.translate(this.x, 0, this.z);
 
 		// The vehicle has frontal traction, make rotation around back wheels and replace vehicle's position
-		this.scene.translate(this.vehicleBreadth/2, 0, this.vehicleLength/3);
+		this.scene.translate(this.vehicleBreadth/2, 0, this.vehicleLength/1.1 * (1+this.vehicleSpeed));
 		this.scene.rotate(this.direction_angle, 0, 1, 0);
-		this.scene.translate(-this.vehicleBreadth/2, 0, -this.vehicleLength/3);
+		this.scene.rotate(0.4 * this.turningWheel.getTurningAngle() * (this.vehicleSpeed/this.vehicleMaxSpeed), 0, 0, 1);
+		this.scene.translate(-this.vehicleBreadth/2, 0, -this.vehicleLength/1.1 *(1+this.vehicleSpeed));
 	}
 
     display() {
