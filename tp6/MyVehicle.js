@@ -39,7 +39,7 @@ class MyVehicle extends CGFobject
 
 		// Vehicle Physics and Status
 		this.x = 0;
-		this.z = 8;
+		this.z = 0;
 		this.direction_angle = 0;
         this.turningSpeed = 0.2;
 		this.vehicleSpeed = 0;
@@ -83,6 +83,10 @@ class MyVehicle extends CGFobject
 		this.turningWheel.changeAngleBy(Math.cos(this.turningWheel.getTurningAngle())*this.vehicleSpeed*deltaTime/this.wheelRadius);
 	}
 
+	activateHandbrake() {
+		this.groundFriction = 0.87;
+	}
+
 	assertSpeed(deltaTime) {
 		this.vehicleSpeed -= this.vehicleSpeed * (1 - this.groundFriction);
 	}
@@ -110,7 +114,7 @@ class MyVehicle extends CGFobject
 		this.scene.translate(this.x, 0, this.z);
 
 		// The vehicle has frontal traction, make rotation around back wheels and replace vehicle's position
-		this.scene.translate(this.vehicleBreadth/2, 0, this.vehicleLength/3);
+		this.scene.translate(0, 0, this.vehicleLength/3 - this.vehicleLength/2);
 		this.scene.rotate(this.direction_angle, 0, 1, 0);
 		this.scene.translate(-this.vehicleBreadth/2, 0, -this.vehicleLength/3);
 	}

@@ -51,6 +51,13 @@ class LightingScene extends CGFscene {
 		// Scene elements
 		this.floor = new MyTerrain(this, 10, this.altimetry);
 		this.vehicle = new MyVehicle(this);
+		this.crane = new MyCrane(this);
+		this.loadingArea = new MyQuad(this);
+
+		this.canMoveVehicle = true;
+		this.loadingAreaToleranceWidthRatio = 0.36;
+		this.loadingAreaToleranceDepthRatio = 0.18;
+
 		this.vehicle.setTextureGroup(this.vehicleTextureGroups[0]);
 
 		this.enableTextures(true);
@@ -69,10 +76,10 @@ class LightingScene extends CGFscene {
 
 	checkKeys(deltaTime) {
 		// Update Vehicle
-		if (this.gui.isKeyPressed("KeyW")) {
+		if (this.gui.isKeyPressed("KeyW") && this.canMoveVehicle) {
 			this.vehicle.update("front", deltaTime);
 		}
-		else if (this.gui.isKeyPressed("KeyS")) {
+		else if (this.gui.isKeyPressed("KeyS") && this.canMoveVehicle) {
 			this.vehicle.update("back", deltaTime);
 		}
 		else {
@@ -89,13 +96,25 @@ class LightingScene extends CGFscene {
 	}
 
 	update(currTime) {
-		// Compute the time that has passed
 		let deltaTime = currTime - this.time;
-
-		// Update the time
 		this.time = currTime;
 
 		this.checkKeys(deltaTime);
+
+		if (this.isVehicleInCatchingBounds()) {
+			this.canMoveVehicle = false;
+			this.crane.startAnimation();
+			this.vehicle.activateHandbrake();
+		}
+
+		this.crane.animate(deltaTime);
+	}
+
+	isVehicleInCatchingBounds() {
+		return (this.vehicle.x > this.crane.catchPositionX - this.loadingAreaToleranceWidthRatio*this.vehicle.vehicleBreadth &&
+				this.vehicle.x < this.crane.catchPositionX + this.loadingAreaToleranceWidthRatio*this.vehicle.vehicleBreadth && 
+				this.vehicle.z > this.crane.catchPositionZ - this.loadingAreaToleranceDepthRatio*this.vehicle.vehicleLength  && 
+				this.vehicle.z < this.crane.catchPositionZ + this.loadingAreaToleranceDepthRatio*this.vehicle.vehicleLength);
 	}
 
 	initLights() {
@@ -175,9 +194,26 @@ class LightingScene extends CGFscene {
 			this.floor.display();
 		this.popMatrix();
 
-		// Wheel
+		// Crane
+		this.pushMatrix();
+			this.translate(13, 0 , 13);
+			this.rotate(-Math.PI/2, 0, 1, 0);
+			this.crane.display();
+		this.popMatrix();
+
+		// Vehicle
 		this.pushMatrix();
 			this.vehicle.display();
+		this.popMatrix();
+
+
+		this.pushMatrix();
+			this.translate(this.crane.catchPositionX, 0.02, this.crane.catchPositionZ);
+			this.scale(this.vehicle.vehicleBreadth+2*this.loadingAreaToleranceWidthRatio*this.vehicle.vehicleBreadth, 
+					   1, 
+					   this.vehicle.vehicleLength+2*this.loadingAreaToleranceDepthRatio*this.vehicle.vehicleLength);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.loadingArea.display();
 		this.popMatrix();
 
 

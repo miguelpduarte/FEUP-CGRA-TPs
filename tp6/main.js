@@ -31,6 +31,7 @@ serialInclude([
 	'StandardTextureGroup.js',
 	'StylishTextureGroup.js',
 	'TaxiTextureGroup.js',
+	'MyCrane.js',
 	'MyInterface.js',
 
 	main=function() {

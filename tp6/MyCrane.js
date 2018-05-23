@@ -13,34 +13,37 @@ class MyCrane extends CGFobject
 		this.quad = new MyUnitCubeQuad(scene);
 
 		this.baseSize = 0.32;
-		this.baseDiameter = 1;
-		this.articulationSize = 0.5;
-		this.baseArmSize = 0.25;
-		this.baseArmLength = 6.6;
+		this.baseDiameter = 1.4;
+		this.articulationSize = 0.7;
+		this.baseArmSize = 0.4;
+		this.baseArmLength = 8.5;
 		this.catchArmSize = this.baseArmSize;
-		this.catchArmLength = 4.5;
-		this.ropeLength = 0.8;
-		this.ropeRadius = 0.01;
-		this.magnetHeight = 0.15;
-		this.magnetDiameter = 0.75;
-		this.rotatingBaseSize = this.baseSize/2;
-		this.rotatingBaseDiameter = 0.7;
+		this.catchArmLength = 7;
+		this.ropeLength = 1.1;
+		this.ropeRadius = 0.02;
+		this.magnetHeight = 0.25;
+		this.magnetDiameter = 1.2;
+		this.rotatingBaseSize = this.baseSize/1.5;
+		this.rotatingBaseDiameter = 1;
 
 		// Animation defines
-		this.catchArmSpeed = 3.5E-5;
-		this.craneSpeed = 2E-5;
+		this.catchArmSpeed = 14E-5;
+		this.craneSpeed = 8E-5;
 
 		this.initialBaseArmAngle = Math.PI/12;
 		this.initialCatchArmAngle = Math.PI/2;
 		this.initialCraneAngle = 0;
-		this.catchCatchArmAngle = Math.PI/5.28;
+		this.catchCatchArmAngle = Math.PI/4.37;
 		this.dropZoneCraneAngle = Math.PI;
 
 		this.baseArmAngle = this.initialBaseArmAngle;
 		this.catchArmAngle = this.initialCatchArmAngle;
 		this.craneAngle = this.initialCraneAngle;
 
-		this.animationState = 'catchVehicle';
+		this.animationState = 'notMoving';
+
+		this.catchPositionX = 6.2;
+		this.catchPositionZ = 13.5;
 
 		this.initBuffers();
 	};
@@ -55,6 +58,12 @@ class MyCrane extends CGFobject
 
 	setCatchArmAngle(angle) {
 		this.catchArmAngle = angle;
+	}
+
+	startAnimation() {
+		if (this.animationState =='notMoving') {
+			this.animationState = 'catchVehicle';
+		}
 	}
 
 	animate(deltaTime) {
@@ -107,7 +116,7 @@ class MyCrane extends CGFobject
 			this.craneAngle += (this.initialCraneAngle-this.dropZoneCraneAngle)*this.craneSpeed*deltaTime;
 		} else {
 			this.craneAngle = this.initialCraneAngle;
-			this.animationState = 'catchVehicle';
+			this.animationState = 'notMoving';
 		}
 	}
 
