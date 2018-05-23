@@ -12,25 +12,35 @@ class MyCrane extends CGFobject
 		this.cylinder = new MyCylinder(scene, 20, 20);
 		this.quad = new MyUnitCubeQuad(scene);
 
-		this.baseSize = 0.4;
-		this.articulationSize = 0.38;
-		this.baseArmSize = 0.2;
-		this.baseArmLength = 4;
+		this.baseSize = 0.32;
+		this.baseDiameter = 1;
+		this.articulationSize = 0.5;
+		this.baseArmSize = 0.25;
+		this.baseArmLength = 6.6;
 		this.catchArmSize = this.baseArmSize;
-		this.catchArmLength = 2.5;
-		this.ropeLength = 0.6;
+		this.catchArmLength = 4.5;
+		this.ropeLength = 0.8;
 		this.ropeRadius = 0.01;
 		this.magnetHeight = 0.15;
-		this.magnetDiameter = 0.35;
+		this.magnetDiameter = 0.75;
+		this.rotatingBaseSize = this.baseSize/2;
+		this.rotatingBaseDiameter = 0.7;
 
-		// Crane Elements Angles
-		this.craneAngle = 0;
-		this.baseArmAngle = 0;
-		this.catchArmAngle = 0;
+		// Animation defines
+		this.catchArmSpeed = 3.5E-5;
+		this.craneSpeed = 2E-5;
 
-		this.setBaseArmAngle(Math.PI/3);
-		this.setCatchArmAngle(Math.PI/8);
-		this.setCraneAngle(Math.PI/8);
+		this.initialBaseArmAngle = Math.PI/12;
+		this.initialCatchArmAngle = Math.PI/2;
+		this.initialCraneAngle = 0;
+		this.catchCatchArmAngle = Math.PI/5.28;
+		this.dropZoneCraneAngle = Math.PI;
+
+		this.baseArmAngle = this.initialBaseArmAngle;
+		this.catchArmAngle = this.initialCatchArmAngle;
+		this.craneAngle = this.initialCraneAngle;
+
+		this.animationState = 'catchVehicle';
 
 		this.initBuffers();
 	};
@@ -47,27 +57,97 @@ class MyCrane extends CGFobject
 		this.catchArmAngle = angle;
 	}
 
+	animate(deltaTime) {
+		if (this.animationState == 'catchVehicle') {
+			this.animateCatchingVehicle(deltaTime);
+		} else if (this.animationState == 'pullUpVehicle') {
+			this.animatePullUpVehicle(deltaTime);
+		} else if (this.animationState == 'turnToDropZone') {
+			this.animateTurnToDropZone(deltaTime);
+		} else if (this.animationState == 'dropVehicle') {
+			this.animateDropVehicle(deltaTime);
+		} else if (this.animationState == 'returnStartingPos') {
+			this.animateReturnStarting(deltaTime);
+		}
+	}
+
+	animateCatchingVehicle(deltaTime) {
+		if (this.catchArmAngle > this.catchCatchArmAngle) {
+			this.catchArmAngle += (this.catchCatchArmAngle-this.initialCatchArmAngle)*this.catchArmSpeed*deltaTime;
+		} else {
+			this.catchArmAngle = this.catchCatchArmAngle;
+			this.animationState = 'pullUpVehicle';
+		}
+	}
+
+	animatePullUpVehicle(deltaTime) {
+		if (this.catchArmAngle < this.initialCatchArmAngle) {
+			this.catchArmAngle += (this.initialCatchArmAngle-this.catchCatchArmAngle)*this.catchArmSpeed*deltaTime;
+		} else {
+			this.catchArmAngle = this.initialCatchArmAngle;
+			this.animationState = 'turnToDropZone';
+		}
+	}
+	
+	animateTurnToDropZone(deltaTime) {
+		if (this.craneAngle < this.dropZoneCraneAngle) {
+			this.craneAngle += (this.dropZoneCraneAngle-this.initialCraneAngle)*this.craneSpeed*deltaTime;
+		} else {
+			this.craneAngle = this.dropZoneCraneAngle;
+			this.animationState = 'returnStartingPos';
+		}
+	}
+
+	animateDropVehicle(deltaTime) {
+
+	}
+
+	animateReturnStarting(deltaTime) {
+		if (this.craneAngle > this.initialCraneAngle) {
+			this.craneAngle += (this.initialCraneAngle-this.dropZoneCraneAngle)*this.craneSpeed*deltaTime;
+		} else {
+			this.craneAngle = this.initialCraneAngle;
+			this.animationState = 'catchVehicle';
+		}
+	}
+
 	display()
 	{
-		this.scene.rotate(this.craneAngle, 0, 1, 0);
-
 		// Base
 		this.scene.pushMatrix();
-			this.scene.scale(this.baseSize, this.baseSize, this.baseSize);
+			this.scene.scale(this.baseDiameter, this.baseSize, this.baseDiameter);
 			this.scene.rotate(-Math.PI/2, 1, 0 ,0);
 			this.cylinder.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
-			this.scene.scale(this.baseSize, this.baseSize, this.baseSize);
+			this.scene.scale(this.baseDiameter, this.baseDiameter, this.baseDiameter);
 			this.scene.rotate(Math.PI/2, 1, 0 ,0);
 			this.circle.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0, this.baseSize, 0);
-			this.scene.scale(this.baseSize, this.baseSize, this.baseSize);
+			this.scene.scale(this.baseDiameter, this.baseDiameter, this.baseDiameter);
 			this.scene.rotate(-Math.PI/2, 1, 0 ,0);
 			this.circle.display();
 		this.scene.popMatrix();
+
+		this.scene.rotate(this.craneAngle, 0, 1, 0);
+
+		// Rotating Base
+		this.scene.pushMatrix();
+			this.scene.translate(0, this.baseSize, 0);
+			this.scene.pushMatrix();
+				this.scene.scale(this.rotatingBaseDiameter, this.rotatingBaseSize, this.rotatingBaseDiameter);
+				this.scene.rotate(-Math.PI/2, 1, 0 ,0);
+				this.cylinder.display();
+			this.scene.popMatrix();	
+			this.scene.pushMatrix();
+				this.scene.translate(0, this.baseSize/2, 0);
+				this.scene.scale(this.rotatingBaseDiameter, this.rotatingBaseDiameter, this.rotatingBaseDiameter);
+				this.scene.rotate(-Math.PI/2, 1, 0 ,0);
+				this.circle.display();
+			this.scene.popMatrix();	
+		this.scene.popMatrix();			
 
 		// Base Arm
 		this.scene.pushMatrix();
