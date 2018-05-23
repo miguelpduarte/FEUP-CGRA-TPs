@@ -60,6 +60,13 @@ class LightingScene extends CGFscene {
 
 		this.vehicle.setTextureGroup(this.vehicleTextureGroups[0]);
 
+		// Loading Area Material
+		this.loadingAreaMaterial = new CGFappearance(this);
+    	this.loadingAreaMaterial.loadTexture("./resources/images/hazardStripes.jpg");
+    	this.loadingAreaMaterial.setDiffuse(0.8,0.8,0.8,1);
+    	this.loadingAreaMaterial.setSpecular(0.1,0.1,0.1,1);
+    	this.loadingAreaMaterial.setShininess(15);
+
 		this.enableTextures(true);
 
 		this.setUpdatePeriod(1000 / FRAME_RATE);
@@ -206,13 +213,15 @@ class LightingScene extends CGFscene {
 			this.vehicle.display();
 		this.popMatrix();
 
-
+		// Loading Area
 		this.pushMatrix();
 			this.translate(this.crane.catchPositionX, 0.02, this.crane.catchPositionZ);
 			this.scale(this.vehicle.vehicleBreadth+2*this.loadingAreaToleranceWidthRatio*this.vehicle.vehicleBreadth, 
 					   1, 
 					   this.vehicle.vehicleLength+2*this.loadingAreaToleranceDepthRatio*this.vehicle.vehicleLength);
 			this.rotate(-Math.PI/2, 1, 0, 0);
+
+			this.loadingAreaMaterial.apply();
 			this.loadingArea.display();
 		this.popMatrix();
 
