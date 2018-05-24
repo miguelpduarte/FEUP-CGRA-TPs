@@ -143,6 +143,8 @@ class MyCrane extends CGFobject
 			this.vehicle.y -= this.vehicleDropSpeed;
 		} else {
 			this.vehicle.y = 0;
+			//To notify the scene that the car can move again
+			this.scene.finishedCraneAnimation();
 			this.animationState = 'returnStartingPos'
 		}
 	}
@@ -152,7 +154,6 @@ class MyCrane extends CGFobject
 			this.craneAngle += (this.initialCraneAngle-this.dropZoneCraneAngle)*this.craneSpeed*deltaTime;
 		} else {
 			this.craneAngle = this.initialCraneAngle;
-			this.scene.finishedCraneAnimation();
 			this.animationState = 'notMoving';
 		}
 	}
