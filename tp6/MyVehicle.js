@@ -47,7 +47,9 @@ class MyVehicle extends CGFobject
 		this.vehicleMaxSpeed = 0.01;
 		this.vehicleMinSpeed = -this.vehicleMaxSpeed;
 		this.vehicleAcceleration = 8E-6;
-		this.groundFriction = 0.95;
+		this.defaultGroundFriction = 0.95;
+		this.handbrakeGroundFriction = 0.85;
+		this.groundFriction = this.defaultGroundFriction;
 	};
 	
 	setTextureGroup(texGroup) {
@@ -85,7 +87,11 @@ class MyVehicle extends CGFobject
 	}
 
 	activateHandbrake() {
-		this.groundFriction = 0.85;
+		this.groundFriction = this.handbrakeGroundFriction;
+	}
+
+	deactivateHandbrake() {
+		this.groundFriction = this.defaultGroundFriction;
 	}
 
 	assertSpeed(deltaTime) {

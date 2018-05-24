@@ -109,7 +109,7 @@ class LightingScene extends CGFscene {
 
 		this.checkKeys(deltaTime);
 
-		if (this.isVehicleInCatchingBounds()) {
+		if (this.isVehicleInCatchingBounds() && this.crane.animationState == 'notMoving') {
 			this.vehicle.activateHandbrake();
 			this.canMoveVehicle = false;
 			this.crane.startAnimation();
@@ -117,6 +117,12 @@ class LightingScene extends CGFscene {
 		}
 
 		this.crane.animate(deltaTime);
+	}
+
+	finishedCraneAnimation() {
+		this.vehicle.deactivateHandbrake();
+		this.canMoveVehicle = true;
+		this.crane.setVehicle(null);
 	}
 
 	isVehicleInCatchingBounds() {
