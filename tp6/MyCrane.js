@@ -50,6 +50,7 @@ class MyCrane extends CGFobject
 		this.catchPositionZ = 13.5;
 		this.craneHeight = this.baseArmLength*Math.cos(this.baseArmAngle);
 		this.craneLengthWhenTurning = this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.initialCatchArmAngle);
+		this.vehicleDropSpeed = 1;
 
 		this.initBuffers();
 	};
@@ -131,15 +132,19 @@ class MyCrane extends CGFobject
 			this.vehicle.z = this.z + this.craneLengthWhenTurning * Math.sin(Math.PI -this.craneAngle);
 			//this.vehicle.x = this.x - (this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle);
 			//this.vehicle.z = this.z	+ this.baseArmLength*Math.sin(this.craneAngle) + this.catchArmLength*Math.sin(this.craneAngle);
-			console.log((this.x - this.baseArmLength*Math.sin(this.baseArmAngle) - this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle));
 		} else {
 			this.craneAngle = this.dropZoneCraneAngle;
-			this.animationState = 'returnStartingPos';
+			this.animationState = 'dropVehicle';
 		}
 	}
 
 	animateDropVehicle(deltaTime) {
-
+		if (this.vehicle.y > 0) {
+			this.vehicle.y -= this.vehicleDropSpeed;
+		} else {
+			this.vehicle.y = 0;
+			this.animationState = 'returnStartingPos'
+		}
 	}
 
 	animateReturnStarting(deltaTime) {
@@ -147,6 +152,7 @@ class MyCrane extends CGFobject
 			this.craneAngle += (this.initialCraneAngle-this.dropZoneCraneAngle)*this.craneSpeed*deltaTime;
 		} else {
 			this.craneAngle = this.initialCraneAngle;
+			this.scene.finishedCraneAnimation();
 			this.animationState = 'notMoving';
 		}
 	}
