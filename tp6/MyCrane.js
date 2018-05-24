@@ -14,6 +14,22 @@ class MyCrane extends CGFobject
 		this.quad = new MyUnitCubeQuad(scene);
 		this.vehicle = null;
 
+		// Materials
+		this.magnetMaterial = new CGFappearance(this.scene);
+		this.magnetMaterial.loadTexture("./resources/images/metal.jpg");
+		
+		this.ropeMaterial = new CGFappearance(this.scene);
+    	this.ropeMaterial.loadTexture("./resources/images/rope.jpg");
+
+		this.armMaterial = new CGFappearance(this.scene);
+    	this.armMaterial.loadTexture("./resources/images/wood.jpg");
+
+		this.baseAndJointMaterial = new CGFappearance(this.scene);
+    	this.baseAndJointMaterial.loadTexture("./resources/images/dashedMetal.jpg");
+		
+		//Missing magnet material and rope material
+		//What is rotating base supposed to use
+
 		// Propreties
 		this.baseSize = 0.32;
 		this.baseDiameter = 1.4;
@@ -32,8 +48,8 @@ class MyCrane extends CGFobject
 		this.z = 0;
 
 		// Animation defines
-		this.catchArmSpeed = 20E-5;
-		this.craneSpeed = 6E-4;
+		this.catchArmSpeed = 16E-5;
+		this.craneSpeed = 22E-5;
 		this.initialCatchArmAngle = Math.PI/2;
 		this.initialCraneAngle = 0;
 		this.catchCatchArmAngle = Math.PI/4.37;
@@ -50,7 +66,7 @@ class MyCrane extends CGFobject
 		this.catchPositionZ = 13.5;
 		this.craneHeight = this.baseArmLength*Math.cos(this.baseArmAngle);
 		this.craneLengthWhenTurning = this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.initialCatchArmAngle);
-		this.vehicleDropSpeed = 1;
+		this.vehicleDropSpeed = 1E-2;
 
 		this.initBuffers();
 	};
@@ -140,7 +156,7 @@ class MyCrane extends CGFobject
 
 	animateDropVehicle(deltaTime) {
 		if (this.vehicle.y > 0) {
-			this.vehicle.y -= this.vehicleDropSpeed;
+			this.vehicle.y -= this.vehicleDropSpeed * deltaTime;
 		} else {
 			this.vehicle.y = 0;
 			//To notify the scene that the car can move again
@@ -185,6 +201,7 @@ class MyCrane extends CGFobject
 		}*/
 
 		// Base
+		this.baseAndJointMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.scale(this.baseDiameter, this.baseSize, this.baseDiameter);
 			this.scene.rotate(-Math.PI/2, 1, 0 ,0);
@@ -205,6 +222,7 @@ class MyCrane extends CGFobject
 		this.scene.rotate(this.craneAngle, 0, 1, 0);
 
 		// Rotating Base
+		this.baseAndJointMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, this.baseSize, 0);
 			this.scene.pushMatrix();
@@ -221,6 +239,7 @@ class MyCrane extends CGFobject
 		this.scene.popMatrix();			
 
 		// Base Arm
+		this.armMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, this.baseSize/2, 0);
 			this.scene.rotate(this.baseArmAngle, 1, 0, 0);
@@ -230,6 +249,7 @@ class MyCrane extends CGFobject
 		this.scene.popMatrix();
 
 		// Articulation
+		this.baseAndJointMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(this.articulationSize/2, this.baseSize/2 + this.baseArmLength*Math.cos(this.baseArmAngle), this.baseArmLength*Math.sin(this.baseArmAngle));
 			this.scene.pushMatrix();
@@ -251,6 +271,7 @@ class MyCrane extends CGFobject
 		this.scene.popMatrix();
 
 		// Catch Arm
+		this.armMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, this.baseSize/2 + this.baseArmLength*Math.cos(this.baseArmAngle), this.baseArmLength*Math.sin(this.baseArmAngle));
 			this.scene.rotate(-this.catchArmAngle, 1, 0, 0);
@@ -260,6 +281,7 @@ class MyCrane extends CGFobject
 		this.scene.popMatrix();
 
 		// Rope
+		this.ropeMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 
 								 this.baseArmLength*Math.cos(this.baseArmAngle) - this.catchArmLength*Math.cos(this.catchArmAngle) - this.ropeLength + this.baseSize/1.5,
@@ -284,6 +306,7 @@ class MyCrane extends CGFobject
 		this.scene.popMatrix();
 
 		// Magnet
+		this.magnetMaterial.apply();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 
 								 this.baseArmLength*Math.cos(this.baseArmAngle) - this.catchArmLength*Math.cos(this.catchArmAngle) + this.baseSize/2 - this.ropeLength,
