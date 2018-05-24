@@ -43,12 +43,13 @@ class MyCrane extends CGFobject
 		this.baseArmAngle = Math.PI/12;
 		this.catchArmAngle = this.initialCatchArmAngle;
 		this.craneAngle = this.initialCraneAngle;
-		this.craneHeight = this.baseArmLength*Math.cos(this.baseArmAngle);
 
 		// Animation
 		this.animationState = 'notMoving';
 		this.catchPositionX = 6.2;
 		this.catchPositionZ = 13.5;
+		this.craneHeight = this.baseArmLength*Math.cos(this.baseArmAngle);
+		this.craneLengthWhenTurning = this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.initialCatchArmAngle);
 
 		this.initBuffers();
 	};
@@ -106,6 +107,8 @@ class MyCrane extends CGFobject
 		} else {
 			// Catch the Vehicle
 			this.catchArmAngle = this.catchCatchArmAngle;
+			//Because Z is not automatically calculated in the next section
+			this.vehicle.z = this.catchPositionZ;
 			this.animationState = 'pullUpVehicle';
 		}
 	}
@@ -124,8 +127,10 @@ class MyCrane extends CGFobject
 	animateTurnToDropZone(deltaTime) {
 		if (this.craneAngle < this.dropZoneCraneAngle) {
 			this.craneAngle += (this.dropZoneCraneAngle-this.initialCraneAngle)*this.craneSpeed*deltaTime;	
-			this.vehicle.x = this.x - (this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle);
-			this.vehicle.z = this.z	+ this.baseArmLength*Math.sin(this.craneAngle) + this.catchArmLength*Math.sin(this.craneAngle);
+			this.vehicle.x = this.x + this.craneLengthWhenTurning * Math.cos(Math.PI - this.craneAngle);
+			this.vehicle.z = this.z + this.craneLengthWhenTurning * Math.sin(Math.PI -this.craneAngle);
+			//this.vehicle.x = this.x - (this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle);
+			//this.vehicle.z = this.z	+ this.baseArmLength*Math.sin(this.craneAngle) + this.catchArmLength*Math.sin(this.craneAngle);
 			console.log((this.x - this.baseArmLength*Math.sin(this.baseArmAngle) - this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle));
 		} else {
 			this.craneAngle = this.dropZoneCraneAngle;
