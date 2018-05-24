@@ -109,9 +109,10 @@ class LightingScene extends CGFscene {
 		this.checkKeys(deltaTime);
 
 		if (this.isVehicleInCatchingBounds()) {
+			this.vehicle.activateHandbrake();
 			this.canMoveVehicle = false;
 			this.crane.startAnimation();
-			this.vehicle.activateHandbrake();
+			this.crane.setVehicle(this.vehicle);
 		}
 
 		this.crane.animate(deltaTime);
@@ -201,16 +202,16 @@ class LightingScene extends CGFscene {
 			this.floor.display();
 		this.popMatrix();
 
-		// Crane
-		this.pushMatrix();
-			this.translate(13, 0 , 13);
-			this.rotate(-Math.PI/2, 0, 1, 0);
-			this.crane.display();
-		this.popMatrix();
-
 		// Vehicle
 		this.pushMatrix();
-			this.vehicle.display();
+			if (this.canMoveVehicle) {
+				this.vehicle.display();
+			}
+		this.popMatrix();
+
+		// Crane
+		this.pushMatrix();
+			this.crane.display();
 		this.popMatrix();
 
 		// Loading Area

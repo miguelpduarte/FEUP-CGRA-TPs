@@ -8,10 +8,13 @@ class MyCrane extends CGFobject
 	{
 		super(scene);
 
+		// Components
 		this.circle = new MyCircle(scene, 20);
 		this.cylinder = new MyCylinder(scene, 20, 20);
 		this.quad = new MyUnitCubeQuad(scene);
+		this.vehicle = null;
 
+		// Propreties
 		this.baseSize = 0.32;
 		this.baseDiameter = 1.4;
 		this.articulationSize = 0.7;
@@ -25,28 +28,33 @@ class MyCrane extends CGFobject
 		this.magnetDiameter = 1.2;
 		this.rotatingBaseSize = this.baseSize/1.5;
 		this.rotatingBaseDiameter = 1;
+		this.x = 13;
+		this.z = 13;
 
 		// Animation defines
-		this.catchArmSpeed = 14E-5;
-		this.craneSpeed = 8E-5;
-
-		this.initialBaseArmAngle = Math.PI/12;
+		this.catchArmSpeed = 14E-4;
+		this.craneSpeed = 8E-4;
 		this.initialCatchArmAngle = Math.PI/2;
-		this.initialCraneAngle = 0;
+		this.initialCraneAngle = -Math.PI/2;
 		this.catchCatchArmAngle = Math.PI/4.37;
-		this.dropZoneCraneAngle = Math.PI;
+		this.dropZoneCraneAngle = Math.PI/2;
 
-		this.baseArmAngle = this.initialBaseArmAngle;
+		// Crane Angles
+		this.baseArmAngle = Math.PI/12;
 		this.catchArmAngle = this.initialCatchArmAngle;
 		this.craneAngle = this.initialCraneAngle;
 
+		// Animation
 		this.animationState = 'notMoving';
-
 		this.catchPositionX = 6.2;
 		this.catchPositionZ = 13.5;
 
 		this.initBuffers();
 	};
+
+	setVehicle(vehicle) {
+		this.vehicle = vehicle;
+	}
 
 	setCraneAngle(angle) {
 		this.craneAngle = angle;
@@ -122,6 +130,28 @@ class MyCrane extends CGFobject
 
 	display()
 	{
+		// Vehicle
+		if (this.vehicle != null) {
+			this.scene.pushMatrix();
+
+
+				if (this.animationState === 'pullUpVehicle' || this.animationState === 'turnToDropZone' || this.animationState === 'dropVehicle') {
+					this.scene.translate(
+						0, 
+						this.baseArmLength*Math.cos(this.baseArmAngle) - this.catchArmLength*Math.cos(this.catchArmAngle) + this.baseSize/2 - this.ropeLength - this.vehicle.vehicleHeight,
+						0);
+				}
+
+				this.scene.translate(this.vehicle.x, 0, this.vehicle.z);
+				this.scene.rotate(this.craneAngle + this.initialCatchArmAngle, 0, 1, 0);
+				this.scene.translate(-this.vehicle.x, 0, -this.vehicle.z);
+
+				this.vehicle.display();
+			this.scene.popMatrix();
+		}
+
+		this.scene.translate(this.x, 0, this.z);
+
 		// Base
 		this.scene.pushMatrix();
 			this.scene.scale(this.baseDiameter, this.baseSize, this.baseDiameter);
@@ -244,6 +274,25 @@ class MyCrane extends CGFobject
 				this.circle.display();
 			this.scene.popMatrix();
 		this.scene.popMatrix();
+
+		// Vehicle
+		/*
+		if (this.vehicle != null) {
+			this.scene.pushMatrix();
+				if (this.animationState === 'pullUpVehicle' || this.animationState === 'turnToDropZone' || this.animationState === 'dropVehicle') {
+					this.scene.translate(
+						0, 
+						this.baseArmLength*Math.cos(this.baseArmAngle) - this.catchArmLength*Math.cos(this.catchArmAngle) + this.baseSize/2 - this.ropeLength - this.vehicle.vehicleHeight,
+						this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchArmAngle));
+				}
+				else {
+					this.scene.translate(0, 0, this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchCatchArmAngle));
+				}
+				this.scene.rotate(-this.initialCraneAngle, 0, 1, 0);
+				this.scene.translate(-this.x/2, 0, -this.z);
+				this.vehicle.display();
+			this.scene.popMatrix();
+		} */
 
 	};
 };

@@ -84,7 +84,7 @@ class MyVehicle extends CGFobject
 	}
 
 	activateHandbrake() {
-		this.groundFriction = 0.87;
+		this.groundFriction = 0.85;
 	}
 
 	assertSpeed(deltaTime) {
