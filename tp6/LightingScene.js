@@ -52,6 +52,7 @@ class LightingScene extends CGFscene {
 		this.floor = new MyTerrain(this, 10, this.altimetry);
 		this.vehicle = new MyVehicle(this);
 		this.crane = new MyCrane(this);
+		this.crane.setPosition(13, 13);
 		this.loadingArea = new MyQuad(this);
 
 		this.canMoveVehicle = true;
@@ -204,13 +205,14 @@ class LightingScene extends CGFscene {
 
 		// Vehicle
 		this.pushMatrix();
-			if (this.canMoveVehicle) {
-				this.vehicle.display();
-			}
+			this.vehicle.display();
 		this.popMatrix();
 
 		// Crane
 		this.pushMatrix();
+			this.translate(this.crane.x, 0, this.crane.z);
+			this.rotate(-Math.PI/2, 0, 1, 0);
+			this.translate(-this.crane.x, 0, -this.crane.z);
 			this.crane.display();
 		this.popMatrix();
 

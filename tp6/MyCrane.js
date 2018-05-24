@@ -28,21 +28,22 @@ class MyCrane extends CGFobject
 		this.magnetDiameter = 1.2;
 		this.rotatingBaseSize = this.baseSize/1.5;
 		this.rotatingBaseDiameter = 1;
-		this.x = 13;
-		this.z = 13;
+		this.x = 0;
+		this.z = 0;
 
 		// Animation defines
-		this.catchArmSpeed = 14E-5;
-		this.craneSpeed = 8E-5;
+		this.catchArmSpeed = 20E-5;
+		this.craneSpeed = 6E-4;
 		this.initialCatchArmAngle = Math.PI/2;
-		this.initialCraneAngle = -Math.PI/2;
+		this.initialCraneAngle = 0;
 		this.catchCatchArmAngle = Math.PI/4.37;
-		this.dropZoneCraneAngle = Math.PI/2;
+		this.dropZoneCraneAngle = Math.PI;
 
 		// Crane Angles
 		this.baseArmAngle = Math.PI/12;
 		this.catchArmAngle = this.initialCatchArmAngle;
 		this.craneAngle = this.initialCraneAngle;
+		this.craneHeight = this.baseArmLength*Math.cos(this.baseArmAngle);
 
 		// Animation
 		this.animationState = 'notMoving';
@@ -51,6 +52,11 @@ class MyCrane extends CGFobject
 
 		this.initBuffers();
 	};
+
+	setPosition(x, z) {
+		this.x = x;
+		this.z = z;
+	}
 
 	setVehicle(vehicle) {
 		this.vehicle = vehicle;
@@ -100,8 +106,6 @@ class MyCrane extends CGFobject
 		} else {
 			// Catch the Vehicle
 			this.catchArmAngle = this.catchCatchArmAngle;
-			this.vehicle.x = this.catchPositionX;
-			this.vehicle.z = this.catchPositionZ;
 			this.animationState = 'pullUpVehicle';
 		}
 	}
@@ -109,6 +113,8 @@ class MyCrane extends CGFobject
 	animatePullUpVehicle(deltaTime) {
 		if (this.catchArmAngle < this.initialCatchArmAngle) {
 			this.catchArmAngle += (this.initialCatchArmAngle-this.catchCatchArmAngle)*this.catchArmSpeed*deltaTime;
+			this.vehicle.x = this.x - this.baseArmLength*Math.sin(this.baseArmAngle) - this.catchArmLength*Math.sin(this.catchArmAngle);
+			this.vehicle.y = this.craneHeight - this.catchArmLength*Math.cos(this.catchArmAngle) - this.ropeLength + this.baseSize/2 - this.vehicle.vehicleHeight;
 		} else {
 			this.catchArmAngle = this.initialCatchArmAngle;
 			this.animationState = 'turnToDropZone';
@@ -117,7 +123,10 @@ class MyCrane extends CGFobject
 	
 	animateTurnToDropZone(deltaTime) {
 		if (this.craneAngle < this.dropZoneCraneAngle) {
-			this.craneAngle += (this.dropZoneCraneAngle-this.initialCraneAngle)*this.craneSpeed*deltaTime;
+			this.craneAngle += (this.dropZoneCraneAngle-this.initialCraneAngle)*this.craneSpeed*deltaTime;	
+			this.vehicle.x = this.x - (this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle);
+			this.vehicle.z = this.z	+ this.baseArmLength*Math.sin(this.craneAngle) + this.catchArmLength*Math.sin(this.craneAngle);
+			console.log((this.x - this.baseArmLength*Math.sin(this.baseArmAngle) - this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle));
 		} else {
 			this.craneAngle = this.dropZoneCraneAngle;
 			this.animationState = 'returnStartingPos';
@@ -139,8 +148,10 @@ class MyCrane extends CGFobject
 
 	display()
 	{
+		this.scene.translate(this.x, 0, this.z);
+
 		// Vehicle
-		if (this.vehicle != null) {
+		/*if (this.vehicle != null) {
 			this.scene.pushMatrix();
 				if (this.animationState === 'pullUpVehicle' || this.animationState === 'turnToDropZone' || this.animationState === 'dropVehicle') {
 					this.scene.translate(this.x, 0, this.z);
@@ -159,9 +170,7 @@ class MyCrane extends CGFobject
 
 				this.vehicle.display();
 			this.scene.popMatrix();
-		}
-
-		this.scene.translate(this.x, 0, this.z);
+		}*/
 
 		// Base
 		this.scene.pushMatrix();
