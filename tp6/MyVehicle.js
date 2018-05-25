@@ -38,7 +38,7 @@ class MyVehicle extends CGFobject
 		this.mirror = new MyVehicleSideMirror(scene, this);
 
 		// Vehicle Physics and Status
-		this.x = 0;
+		this.x = -2;
 		this.y = 0;
 		this.z = 2;
 		this.direction_angle = 0;
