@@ -31,8 +31,8 @@ class MyInterface extends CGFinterface {
     };
 
     createAxisCheckbox() {
-        this.model['Eixo'] = true;
-        this.gui.add(this.model, 'Eixo').onChange((val) => {
+        this.model['Eixos'] = true;
+        this.gui.add(this.model, 'Eixos').onChange((val) => {
             this.scene.toggleAxis();
         });
     }
@@ -53,10 +53,10 @@ class MyInterface extends CGFinterface {
         this.model.texturePackIndex = 0;
         let texPackDropdownModel = {
             "Standard": 0,
-            "Stylish": 1,
-            "Taxi": 2,
+            "Estiloso": 1,
+            "Táxi": 2,
         }
-        this.gui.add(this.model, "texturePackIndex", texPackDropdownModel).name("Texture Pack").onChange((val) => {
+        this.gui.add(this.model, "texturePackIndex", texPackDropdownModel).name("Grupo Textura").onChange((val) => {
             this.scene.setTexturePack(val);
         });
     }

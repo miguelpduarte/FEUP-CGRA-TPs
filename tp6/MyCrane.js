@@ -49,8 +49,8 @@ class MyCrane extends CGFobject
 		this.z = 0;
 
 		// Animation defines
-		this.catchArmSpeed = 16E-5;
-		this.craneSpeed = 22E-5;
+		this.catchArmSpeed = 20E-5;
+		this.craneSpeed = 25E-5;
 		this.initialCatchArmAngle = Math.PI/2;
 		this.initialCraneAngle = 0;
 		this.catchCatchArmAngle = Math.PI/4.37;
@@ -68,6 +68,8 @@ class MyCrane extends CGFobject
 		this.craneHeight = this.baseArmLength*Math.cos(this.baseArmAngle);
 		this.craneLengthWhenTurning = this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.initialCatchArmAngle);
 		this.vehicleDropSpeed = 1E-2;
+
+		this.vehicleDropY = 0;
 
 		this.initBuffers();
 	};
@@ -154,10 +156,11 @@ class MyCrane extends CGFobject
 	}
 
 	animateDropVehicle(deltaTime) {
-		if (this.vehicle.y > 0) {
+		if (this.vehicle.y > this.vehicleDropY) {
 			this.vehicle.y -= this.vehicleDropSpeed * deltaTime;
 		} else {
-			this.vehicle.y = 0;
+			this.vehicle.y = this.vehicleDropY;
+			this.vehicleDropY += this.vehicle.vehicleHeight;
 			//To notify the scene that the car can move again
 			this.scene.finishedCraneAnimation();
 			this.animationState = 'returnStartingPos'

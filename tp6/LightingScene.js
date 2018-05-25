@@ -48,6 +48,9 @@ class LightingScene extends CGFscene {
 						 [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 					    ];
 
+		this.CRANE_VEHICLE_CAPACITY = 3;
+		this.droppedVehicles = [];
+
 		// Scene elements
 		this.floor = new MyTerrain(this, 10, this.altimetry);
 		this.vehicle = new MyVehicle(this);
@@ -104,12 +107,16 @@ class LightingScene extends CGFscene {
 	}
 
 	update(currTime) {
+		if (!this.vehicle) {
+			return;
+		}
+
 		let deltaTime = currTime - this.time;
 		this.time = currTime;
 
 		this.checkKeys(deltaTime);
 
-		if (this.isVehicleInCatchingBounds() && this.crane.animationState == 'notMoving') {
+		if (this.isVehicleInCatchingBounds() && this.crane.animationState == 'notMoving' && this.droppedVehicles.length < this.CRANE_VEHICLE_CAPACITY) {
 			this.vehicle.activateHandbrake();
 			this.canMoveVehicle = false;
 			this.crane.startAnimation();
@@ -120,7 +127,11 @@ class LightingScene extends CGFscene {
 	}
 
 	finishedCraneAnimation() {
-		this.vehicle.deactivateHandbrake();
+		this.droppedVehicles.push(this.vehicle);
+		if(this.droppedVehicles.length <= this.CRANE_VEHICLE_CAPACITY) {
+			this.vehicle = new MyVehicle(this);
+			this.vehicle.setTextureGroup(this.droppedVehicles[this.droppedVehicles.length-1].texGroup);
+		}
 		this.canMoveVehicle = true;
 		this.crane.setVehicle(null);
 	}
@@ -213,6 +224,13 @@ class LightingScene extends CGFscene {
 		this.pushMatrix();
 			this.vehicle.display();
 		this.popMatrix();
+
+		// Dropped Vehicles
+		for(let i = 0; i < this.droppedVehicles.length; ++i) {
+			this.pushMatrix();
+				this.droppedVehicles[i].display();
+			this.popMatrix();
+		}
 
 		// Crane
 		this.pushMatrix();

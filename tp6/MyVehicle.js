@@ -40,7 +40,7 @@ class MyVehicle extends CGFobject
 		// Vehicle Physics and Status
 		this.x = 0;
 		this.y = 0;
-		this.z = 0;
+		this.z = 2;
 		this.direction_angle = 0;
         this.turningSpeed = 0.2;
 		this.vehicleSpeed = 0;
