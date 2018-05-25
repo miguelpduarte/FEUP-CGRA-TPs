@@ -19,6 +19,7 @@ class MyCrane extends CGFobject
 		this.magnetMaterial.loadTexture("./resources/images/metal.jpg");
 		
 		this.ropeMaterial = new CGFappearance(this.scene);
+		this.ropeMaterial.setTextureWrap('CLAMP_TO_EDGE','CLAMP_TO_EDGE');
     	this.ropeMaterial.loadTexture("./resources/images/rope.jpg");
 
 		this.armMaterial = new CGFappearance(this.scene);
@@ -124,7 +125,6 @@ class MyCrane extends CGFobject
 		} else {
 			// Catch the Vehicle
 			this.catchArmAngle = this.catchCatchArmAngle;
-			//Because Z is not automatically calculated in the next section
 			this.vehicle.z = this.catchPositionZ;
 			this.animationState = 'pullUpVehicle';
 		}
@@ -146,8 +146,7 @@ class MyCrane extends CGFobject
 			this.craneAngle += (this.dropZoneCraneAngle-this.initialCraneAngle)*this.craneSpeed*deltaTime;	
 			this.vehicle.x = this.x + this.craneLengthWhenTurning * Math.cos(Math.PI - this.craneAngle);
 			this.vehicle.z = this.z + this.craneLengthWhenTurning * Math.sin(Math.PI -this.craneAngle);
-			//this.vehicle.x = this.x - (this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchArmAngle)) * Math.sin(this.craneAngle);
-			//this.vehicle.z = this.z	+ this.baseArmLength*Math.sin(this.craneAngle) + this.catchArmLength*Math.sin(this.craneAngle);
+			this.vehicle.direction_angle += this.craneSpeed*Math.PI*deltaTime;
 		} else {
 			this.craneAngle = this.dropZoneCraneAngle;
 			this.animationState = 'dropVehicle';
@@ -177,28 +176,6 @@ class MyCrane extends CGFobject
 	display()
 	{
 		this.scene.translate(this.x, 0, this.z);
-
-		// Vehicle
-		/*if (this.vehicle != null) {
-			this.scene.pushMatrix();
-				if (this.animationState === 'pullUpVehicle' || this.animationState === 'turnToDropZone' || this.animationState === 'dropVehicle') {
-					this.scene.translate(this.x, 0, this.z);
-					this.scene.rotate(this.craneAngle, 0, 1, 0);
-					this.scene.translate(
-						0, 
-						this.baseArmLength*Math.cos(this.baseArmAngle) - this.catchArmLength*Math.cos(this.catchArmAngle) + this.baseSize/2 - this.ropeLength - this.vehicle.vehicleHeight,
-						this.baseArmLength*Math.sin(this.baseArmAngle) + this.catchArmLength*Math.sin(this.catchArmAngle));
-					this.scene.rotate(this.initialCatchArmAngle, 0, 1, 0);
-				}
-				else {
-					this.scene.translate(this.vehicle.x, 0, this.vehicle.z);
-					this.scene.rotate(this.craneAngle + this.initialCatchArmAngle, 0, 1, 0);
-				}
-				this.scene.translate(-this.vehicle.x, 0, -this.vehicle.z);
-
-				this.vehicle.display();
-			this.scene.popMatrix();
-		}*/
 
 		// Base
 		this.baseAndJointMaterial.apply();
